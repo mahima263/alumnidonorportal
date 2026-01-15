@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initiated Programs | IITK Alumni Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+
+   <style>
+        :root {
+            --primary-color: #b04b34;
+            --primary-light: rgba(176, 75, 52, 0.1);
+            --primary-dark: #9a3f2a;
+            --sidebar-width: 280px;
+            --transition-speed: 0.3s;
+            
+            /* Light Mode Variables */
+            --body-bg: #f5f7fa;
+            --main-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #666666;
+            --border-color: #eef2f7;
+            --shadow-color: rgba(0, 0, 0, 0.07);
+            --hover-bg: rgba(176, 75, 52, 0.08);
+            --input-bg: #ffffff;
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --primary-color: #e67e63;
+            --primary-light: rgba(230, 126, 99, 0.15);
+            --primary-dark: #b04b34;
+            --body-bg: #0f172a;
+            --main-bg: #1e293b;
+            --sidebar-bg: #1e293b;
+            --card-bg: #334155;
+            --header-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #475569;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --hover-bg: rgba(230, 126, 99, 0.15);
+            --input-bg: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--body-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+            transition: all var(--transition-speed) ease;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            box-shadow: 3px 0 20px var(--shadow-color);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: all var(--transition-speed);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-direction: column;
+        }
+
+        .institute-logo {
+            height: 80px;
+            width: auto;
+            border-radius: 6px;
+            background: white;
+            padding: 5px;
+        }
+
+        .institute-name {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .institute-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .nav-menu {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(176, 75, 52, 0.2) 0%, rgba(176, 75, 52, 0.1) 100%);
+            color: var(--primary-color);
+            font-weight: 600;
+            border-color: var(--primary-color);
+        }
+
+        .nav-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .nav-item:hover .nav-icon,
+        .nav-item.active .nav-icon {
+            color: var(--primary-color);
+        }
+
+        .nav-dropdown {
+            margin-bottom: 8px;
+        }
+
+        .dropdown-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            gap: 12px;
+            margin-bottom: 0;
+        }
+
+        .dropdown-header:hover {
+            background: var(--hover-bg);
+            border-color: var(--primary-color);
+        }
+
+        .dropdown-header.active {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .dropdown-chevron {
+            margin-left: auto;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .dropdown-header.active .dropdown-chevron {
+            transform: rotate(180deg);
+            color: var(--primary-color);
+        }
+
+        .dropdown-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+
+        .dropdown-menu.show {
+            max-height: 200px;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            transition: all 0.2s ease;
+            font-size: 13.5px;
+        }
+
+        .dropdown-item:hover {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+        }
+
+        .dropdown-item.active {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            padding: 15px 20px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            background-color: var(--main-bg);
+            transition: margin-left var(--transition-speed);
+        }
+
+        /* ===== TOP HEADER ===== */
+        .top-header {
+            background: var(--header-bg);
+            padding: 15px 30px;
+            box-shadow: 0 2px 15px var(--shadow-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: linear-gradient(90deg, var(--text-primary), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .date-display {
+            font-size: 14px;
+            color: var(--text-secondary);
+            background: var(--main-bg);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 250px;
+            font-size: 14px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(176, 75, 52, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        [data-theme="light"] .theme-toggle .fa-sun {
+            display: none;
+        }
+
+        [data-theme="light"] .theme-toggle .fa-moon {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-sun {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-moon {
+            display: none;
+        }
+
+        .notification-bell {
+            position: relative;
+            font-size: 18px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .notification-bell:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 2px solid var(--header-bg);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: var(--card-bg);
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-profile:hover {
+            background: var(--hover-bg);
+            border-color: var(--primary-color);
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .profile-role {
+            font-size: 12px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* ===== PAGE CONTENT ===== */
+        .page-content {
+            padding: 30px;
+        }
+
+        /* ===== PROGRAMS HEADER ===== */
+        .programs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left-content h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-left-content p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        .header-right-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .view-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .fy-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fy-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .fy-dropdown {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-primary);
+            background: var(--card-bg);
+            cursor: pointer;
+            min-width: 140px;
+            transition: all var(--transition-speed);
+        }
+
+        .fy-dropdown:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .view-toggle {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .view-btn {
+            background: none;
+            border: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 15px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .view-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .view-btn:hover:not(.active) {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+        }
+
+        /* ===== CLEAN PROGRAM CARDS ===== */
+        .programs-container {
+            margin-bottom: 30px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 25px;
+        }
+
+        /* List View */
+        .programs-grid.view-list {
+            grid-template-columns: 1fr;
+        }
+
+        /* Card Design */
+        .program-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .program-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(176, 75, 52, 0.12);
+            border-color: var(--primary-color);
+        }
+
+        [data-theme="dark"] .program-card:hover {
+            box-shadow: 0 8px 25px rgba(230, 126, 99, 0.15);
+        }
+
+        /* Card Header */
+        .program-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .program-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .program-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--primary-light);
+            color: var(--primary-color);
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+
+        /* Program Stats */
+        .program-stats {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--primary-color);
+            margin: 0 auto 8px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Program Actions - FIXED BUTTON LAYOUT */
+        .program-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        /* List View Actions */
+        .programs-grid.view-list .program-actions {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .action-btn {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-align: center;
+            min-height: 40px;
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(176, 75, 52, 0.2);
+        }
+
+        [data-theme="dark"] .action-btn:hover {
+            box-shadow: 0 4px 12px rgba(230, 126, 99, 0.3);
+        }
+
+        .action-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .action-btn.primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            box-shadow: 0 4px 15px rgba(176, 75, 52, 0.3);
+        }
+
+        .action-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            background-color: var(--card-bg);
+        }
+
+        .action-btn.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ===== PAGE SECTIONS ===== */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Page Header with Back Button */
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: var(--hover-bg);
+        }
+
+        .page-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .program-indicator {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--hover-bg);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* ===== DATA TABLES ===== */
+        .data-table-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            transition: all var(--transition-speed);
+            border: 1px solid var(--border-color);
+        }
+
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--header-bg);
+        }
+
+        .table-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .table-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .data-table thead {
+            background: var(--header-bg);
+        }
+
+        .data-table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            transition: all 0.2s;
+            color: var(--text-primary);
+        }
+
+        .data-table tbody tr {
+            transition: all 0.2s;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--hover-bg);
+        }
+
+        /* Table Actions */
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .table-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .table-btn.view {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .table-btn.view:hover {
+            background: rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .table-btn.download {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .table-btn.download:hover {
+            background: rgba(46, 204, 113, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* ===== REPORTS PAGE ===== */
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .report-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .report-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        .report-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .report-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .report-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .report-btn {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .report-btn:hover {
+            background: var(--hover-bg);
+            transform: translateY(-2px);
+        }
+
+        .report-btn.primary {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .report-btn.primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 5px 15px rgba(176, 75, 52, 0.2);
+        }
+
+        /* ===== FRL & UC TABLES ===== */
+        .doc-table-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .doc-table thead {
+            background: var(--header-bg);
+        }
+
+        .doc-table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .doc-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            transition: all 0.2s;
+            color: var(--text-primary);
+        }
+
+        .doc-table tbody tr:hover {
+            background: var(--hover-bg);
+        }
+
+        .doc-table .action-cell {
+            text-align: center;
+        }
+
+        .doc-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: var(--hover-bg);
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .doc-link:hover {
+            background: var(--hover-bg);
+            text-decoration: none;
+            border-color: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        /* ===== FEEDBACK MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            line-height: 1;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-color);
+        }
+
+        .rating-section {
+            margin-bottom: 25px;
+        }
+
+        .rating-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .star {
+            font-size: 28px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .star:hover {
+            transform: scale(1.1);
+        }
+
+        .star.active {
+            color: #ffc107;
+        }
+
+        .rating-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(176, 75, 52, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            border: none;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(176, 75, 52, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--hover-bg);
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .programs-grid {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            }
+            
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                box-shadow: 5px 0 30px var(--shadow-color);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-content {
+                padding: 20px;
+            }
+
+            .header-right {
+                gap: 10px;
+            }
+
+            .search-input {
+                display: none;
+            }
+
+            .search-box.active .search-input {
+                display: block;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 250px;
+                z-index: 100;
+            }
+
+            .programs-grid.view-list .program-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .programs-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-right-controls {
+                width: 100%;
+            }
+            
+            .view-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .program-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .programs-grid.view-list .program-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .program-stats {
+                gap: 15px;
+            }
+            
+            .stat-item {
+                min-width: 70px;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(176, 75, 52, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 992px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--body-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        /* Smooth transitions */
+        .sidebar,
+        .main-content,
+        .top-header,
+        .nav-item,
+        .dropdown-header,
+        .dropdown-menu,
+        .program-card,
+        .action-btn {
+            transition: all var(--transition-speed) ease;
+        }
+
+        /* Animation for page transitions */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 3000;
+            animation: toastSlideIn 0.3s ease;
+            border-left: 4px solid #27ae60;
+            border: 1px solid var(--border-color);
+            max-width: 350px;
+            font-weight: 500;
+        }
+
+        @keyframes toastSlideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes toastSlideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="../assets/logo.png" alt="IITK Logo" class="institute-logo">
+                <div class="institute-name">IIT Kanpur</div>
+                <div class="institute-subtitle">Alumni Portal</div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <!-- Dashboard -->
+            <a href="../index.html" class="nav-item">
+                <i class="fas fa-chart-pie nav-icon"></i>
+                <span class="nav-label">Dashboard</span>
+            </a>
+
+            <!-- Upcoming Events Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-calendar-alt nav-icon"></i>
+                    <span class="nav-label">Upcoming Events</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="reunion-survey.html" class="dropdown-item">
+                        <i class="fas fa-users me-2"></i>Reunion & Survey
+                    </a>
+                    <a href="other-events.html" class="dropdown-item">
+                        <i class="fas fa-calendar-week me-2"></i>Other Events
+                    </a>
+                </div>
+            </div>
+
+            <!-- Award Nominations -->
+            <a href="award-nominations.html" class="nav-item">
+                <i class="fas fa-award nav-icon"></i>
+                <span class="nav-label">Award Nominations</span>
+            </a>
+
+            <!-- Giving Back -->
+            <a href="giving-back.html" class="nav-item">
+                <i class="fas fa-hand-holding-heart nav-icon"></i>
+                <span class="nav-label">Giving Back</span>
+            </a>
+
+            <!-- Pledges -->
+            <a href="pledges.html" class="nav-item active">
+                <i class="fas fa-handshake nav-icon"></i>
+                <span class="nav-label">Pledges</span>
+            </a>
+
+            <!-- My Contributions Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-donate nav-icon"></i>
+                    <span class="nav-label">My Contributions</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="donationhistory.html" class="dropdown-item">
+                        <i class="fas fa-history me-2"></i>Donation History
+                    </a>
+                    <a href="programs.html" class="dropdown-item">
+                        <i class="fas fa-project-diagram me-2"></i>Initiated Programs
+                    </a>
+                    <a href="projects.html" class="dropdown-item">
+                        <i class="fas fa-tasks me-2"></i>Projects
+                    </a>
+                </div>
+            </div>
+
+            <!-- My Services Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-concierge-bell nav-icon"></i>
+                    <span class="nav-label">My Services</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="vh-booking.html" class="dropdown-item">
+                        <i class="fas fa-hotel me-2"></i>VH Booking
+                    </a>
+                    <a href="student-services.html" class="dropdown-item">
+                        <i class="fas fa-user-graduate me-2"></i>Student Services
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>© 2025 IIT Kanpur Alumni Association</p>
+            <p style="margin-top: 4px; font-size: 10px; color: var(--text-secondary);">Version 2.5.1</p>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <div class="page-title" id="mainPageTitle">Initiated Programs</div>
+                <div class="date-display" id="currentDate">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="dateText">Loading date...</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon" id="searchIcon"></i>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search programs...">
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <div class="notification-bell" id="notificationBell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="profile-img-placeholder" style="width: 40px; height: 40px; border-radius: 8px; background: var(--primary-color); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            RV
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">Dr. Rajesh Verma</div>
+                            <div class="profile-role">Class of 2005</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- ===== MAIN PROGRAMS PAGE ===== -->
+            <section class="page-section active" id="programsPage">
+                <div class="programs-header">
+                    <div class="header-left-content">
+                        <h1>Initiated Programs</h1>
+                        <p>Manage and track all programs you have initiated at IIT Kanpur. View recipients, reports, and documentation.</p>
+                    </div>
+                    
+                    <div class="header-right-controls">
+                        <div class="view-controls">
+                            <div class="fy-selector">
+                                <span class="fy-label">Financial Year:</span>
+                                <select class="fy-dropdown" id="fyDropdown">
+                                    <option value="2022-23">FY 2022-23</option>
+                                    <option value="2023-24">FY 2023-24</option>
+                                    <option value="2024-25" selected>FY 2024-25</option>
+                                    <option value="2025-26">FY 2025-26</option>
+                                </select>
+                            </div>
+                            
+                            <div class="view-toggle">
+                                <button class="view-btn active" id="gridViewBtn" title="Grid View">
+                                    <i class="fas fa-th-large"></i>
+                                    <span>Grid</span>
+                                </button>
+                                <button class="view-btn" id="listViewBtn" title="List View">
+                                    <i class="fas fa-list"></i>
+                                    <span>List</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Programs Grid/List -->
+                <div class="programs-container">
+                    <div class="programs-grid" id="programsContainer">
+                        <!-- Card 1: HCL Foundation -->
+                        <div class="program-card">
+                            <div class="program-header">
+                                <h3 class="program-title">HCL Foundation Scholarship</h3>
+                                <span class="program-status">Active</span>
+                            </div>
+                            
+                            <div class="program-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-user-graduate"></i>
+                                    </div>
+                                    <div class="stat-value">12</div>
+                                    <div class="stat-label">Students</div>
+                                </div>
+                                
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-indian-rupee-sign"></i>
+                                    </div>
+                                    <div class="stat-value">5.2L</div>
+                                    <div class="stat-label">Funding</div>
+                                </div>
+                            </div>
+                            
+                            <div class="program-actions">
+                                <button class="action-btn" data-action="recipient" data-program="HCL Foundation">
+                                    <i class="fas fa-user-graduate"></i>
+                                    Recipients
+                                </button>
+                                <button class="action-btn disabled" data-program="HCL Foundation" disabled>
+                                    <i class="fas fa-chart-bar"></i>
+                                    Reports
+                                </button>
+                                <button class="action-btn disabled" data-program="HCL Foundation" disabled>
+                                    <i class="fas fa-file-invoice"></i>
+                                    FRL
+                                </button>
+                                <button class="action-btn disabled" data-program="HCL Foundation" disabled>
+                                    <i class="fas fa-file-certificate"></i>
+                                    UC
+                                </button>
+                                <button class="action-btn primary" data-action="feedback" data-program="HCL Foundation">
+                                    <i class="fas fa-comment-dots"></i>
+                                    Feedback
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Global Health Innovation Grants -->
+                        <div class="program-card">
+                            <div class="program-header">
+                                <h3 class="program-title">Global Health Innovation Grants</h3>
+                                <span class="program-status">Active</span>
+                            </div>
+                            
+                            <div class="program-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <div class="stat-value">8</div>
+                                    <div class="stat-label">Faculty</div>
+                                </div>
+                                
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-indian-rupee-sign"></i>
+                                    </div>
+                                    <div class="stat-value">25L</div>
+                                    <div class="stat-label">Funding</div>
+                                </div>
+                            </div>
+                            
+                            <div class="program-actions">
+                                <button class="action-btn" data-action="recipient" data-program="Global Health Innovation Grants">
+                                    <i class="fas fa-user-graduate"></i>
+                                    Recipients
+                                </button>
+                                <button class="action-btn" data-action="report" data-program="Global Health Innovation Grants">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Reports
+                                </button>
+                                <button class="action-btn" data-action="frl" data-program="Global Health Innovation Grants">
+                                    <i class="fas fa-file-invoice"></i>
+                                    FRL
+                                </button>
+                                <button class="action-btn" data-action="uc" data-program="Global Health Innovation Grants">
+                                    <i class="fas fa-file-certificate"></i>
+                                    UC
+                                </button>
+                                <button class="action-btn primary" data-action="feedback" data-program="Global Health Innovation Grants">
+                                    <i class="fas fa-comment-dots"></i>
+                                    Feedback
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: CSR for Education -->
+                        <div class="program-card">
+                            <div class="program-header">
+                                <h3 class="program-title">CSR for Education Initiative</h3>
+                                <span class="program-status">Completed</span>
+                            </div>
+                            
+                            <div class="program-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                    </div>
+                                    <div class="stat-value">15</div>
+                                    <div class="stat-label">Sessions</div>
+                                </div>
+                                
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-indian-rupee-sign"></i>
+                                    </div>
+                                    <div class="stat-value">8.5L</div>
+                                    <div class="stat-label">Funding</div>
+                                </div>
+                            </div>
+                            
+                            <div class="program-actions">
+                                <button class="action-btn" data-action="recipient" data-program="CSR for Education">
+                                    <i class="fas fa-user-graduate"></i>
+                                    Recipients
+                                </button>
+                                <button class="action-btn" data-action="report" data-program="CSR for Education">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Reports
+                                </button>
+                                <button class="action-btn" data-action="frl" data-program="CSR for Education">
+                                    <i class="fas fa-file-invoice"></i>
+                                    FRL
+                                </button>
+                                <button class="action-btn" data-action="uc" data-program="CSR for Education">
+                                    <i class="fas fa-file-certificate"></i>
+                                    UC
+                                </button>
+                                <button class="action-btn primary" data-action="feedback" data-program="CSR for Education">
+                                    <i class="fas fa-comment-dots"></i>
+                                    Feedback
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Gangwal School -->
+                        <div class="program-card">
+                            <div class="program-header">
+                                <h3 class="program-title">Gangwal School Travel Grants</h3>
+                                <span class="program-status">Active</span>
+                            </div>
+                            
+                            <div class="program-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-plane"></i>
+                                    </div>
+                                    <div class="stat-value">24</div>
+                                    <div class="stat-label">Grants</div>
+                                </div>
+                                
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-indian-rupee-sign"></i>
+                                    </div>
+                                    <div class="stat-value">18L</div>
+                                    <div class="stat-label">Funding</div>
+                                </div>
+                            </div>
+                            
+                            <div class="program-actions">
+                                <button class="action-btn" data-action="recipient" data-program="Gangwal School">
+                                    <i class="fas fa-user-graduate"></i>
+                                    Recipients
+                                </button>
+                                <button class="action-btn" data-action="report" data-program="Gangwal School">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Reports
+                                </button>
+                                <button class="action-btn" data-action="frl" data-program="Gangwal School">
+                                    <i class="fas fa-file-invoice"></i>
+                                    FRL
+                                </button>
+                                <button class="action-btn" data-action="uc" data-program="Gangwal School">
+                                    <i class="fas fa-file-certificate"></i>
+                                    UC
+                                </button>
+                                <button class="action-btn primary" data-action="feedback" data-program="Gangwal School">
+                                    <i class="fas fa-comment-dots"></i>
+                                    Feedback
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== RECIPIENTS PAGE (For Global Health Innovation Grants) ===== -->
+            <section class="page-section" id="recipientsPage">
+                <div class="page-header">
+                    <button class="back-btn" id="backFromRecipients">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Recipients Details</h2>
+                    <span class="program-indicator" id="recipientProgramIndicator">Global Health Innovation Grants</span>
+                </div>
+
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h3>Global Health Innovation Grants - Principal Investigators</h3>
+                        <p>List of all faculty members funded under the Global Health Innovation Grants program</p>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>PI Name</th>
+                                    <th>PI Contact</th>
+                                    <th>PI Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="globalHealthTableBody">
+                                <!-- Data populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== REPORTS PAGE ===== -->
+            <section class="page-section" id="reportsPage">
+                <div class="page-header">
+                    <button class="back-btn" id="backFromReports">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Program Reports</h2>
+                    <span class="program-indicator" id="reportProgramIndicator">Program Name</span>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="report-title">Quarterly Progress Q1 2024</h3>
+                        <p class="report-desc">Detailed progress report covering activities, attendance metrics, and impact assessment for Q1 2024.</p>
+                        <div class="report-actions">
+                            <button class="report-btn" data-report="quarterly-progress">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </button>
+                            <button class="report-btn primary" data-report="quarterly-progress-download">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3 class="report-title">Scholarship Report</h3>
+                        <p class="report-desc">Comprehensive report on scholarship disbursement, recipient performance, and program outcomes.</p>
+                        <div class="report-actions">
+                            <button class="report-btn" data-report="scholarship-report">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </button>
+                            <button class="report-btn primary" data-report="scholarship-report-download">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== FRL PAGE ===== -->
+            <section class="page-section" id="frlPage">
+                <div class="page-header">
+                    <button class="back-btn" id="backFromFrl">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Fund Release Letters (FRL)</h2>
+                    <span class="program-indicator" id="frlProgramIndicator">Project Name</span>
+                </div>
+
+                <div class="doc-table-container">
+                    <div class="table-wrapper">
+                        <table class="doc-table">
+                            <thead>
+                                <tr>
+                                    <th>Reference No.</th>
+                                    <th>Date</th>
+                                    <th>Title of the Program</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>FRL-PER-2024-001</td>
+                                    <td>10-Jan-2024</td>
+                                    <td>Program: Q1 Activities</td>
+                                    <td class="action-cell">
+                                        <a href="#" class="doc-link">
+                                            <i class="fas fa-external-link-alt"></i>
+                                            View FRL
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== UC PAGE ===== -->
+            <section class="page-section" id="ucPage">
+                <div class="page-header">
+                    <button class="back-btn" id="backFromUc">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Utilization Certificates (UC)</h2>
+                    <span class="program-indicator" id="ucProgramIndicator">Program Name</span>
+                </div>
+
+                <div class="doc-table-container">
+                    <div class="table-wrapper">
+                        <table class="doc-table">
+                            <thead>
+                                <tr>
+                                    <th>UC Generation Frequency</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Title of the Program</th>
+                                    <th>Name of the Principal Investigator</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Quarterly</td>
+                                    <td>29-Sep-2025</td>
+                                    <td>29-Sep-2025</td>
+                                    <td>Chemistry Program Report</td>
+                                    <td>AR</td>
+                                    <td class="action-cell">
+                                        <a href="#" class="doc-link">
+                                            <i class="fas fa-external-link-alt"></i>
+                                            View UC
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ===== FEEDBACK MODAL ===== -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="feedbackProgramTitle">Program Feedback</h3>
+                <button class="modal-close" id="closeFeedbackModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="feedbackForm">
+                <div class="rating-section">
+                    <label class="rating-label">Rate this program</label>
+                    <div class="rating-stars" id="ratingStars">
+                        <span class="star" data-rating="1"><i class="far fa-star"></i></span>
+                        <span class="star" data-rating="2"><i class="far fa-star"></i></span>
+                        <span class="star" data-rating="3"><i class="far fa-star"></i></span>
+                        <span class="star" data-rating="4"><i class="far fa-star"></i></span>
+                        <span class="star" data-rating="5"><i class="far fa-star"></i></span>
+                    </div>
+                    <div class="rating-text" id="ratingText">Click to rate</div>
+                    <input type="hidden" id="ratingValue" name="rating" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Comments</label>
+                    <textarea class="form-control" name="comments" placeholder="Share your experience with this program... What did you like? What could be improved?" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Suggestions for Improvement</label>
+                    <textarea class="form-control" name="suggestions" placeholder="Any specific suggestions to enhance this program..."></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelFeedback">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ===== COMPLETE JAVASCRIPT WITH WORKING FEEDBACK MODAL =====
+
+        // Current Date Display
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('dateText').textContent = now.toLocaleDateString('en-US', options);
+
+        // ===== THEME TOGGLE =====
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            showToast(`Switched to ${newTheme} mode`, 'success');
+        });
+
+        // ===== MOBILE MENU TOGGLE =====
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        mobileMenuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('active');
+            mobileMenuToggle.innerHTML = sidebar.classList.contains('active')
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // ===== VIEW TOGGLE =====
+        const gridViewBtn = document.getElementById('gridViewBtn');
+        const listViewBtn = document.getElementById('listViewBtn');
+        const programsContainer = document.getElementById('programsContainer');
+
+        gridViewBtn.addEventListener('click', function() {
+            this.classList.add('active');
+            listViewBtn.classList.remove('active');
+            programsContainer.classList.remove('view-list');
+            showToast('Switched to grid view', 'success');
+        });
+
+        listViewBtn.addEventListener('click', function() {
+            this.classList.add('active');
+            gridViewBtn.classList.remove('active');
+            programsContainer.classList.add('view-list');
+            showToast('Switched to list view', 'success');
+        });
+
+        // ===== PAGE NAVIGATION =====
+        let currentProgram = '';
+        const pageSections = document.querySelectorAll('.page-section');
+        
+        function showPage(pageId) {
+            pageSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Back buttons
+        document.getElementById('backFromRecipients').addEventListener('click', () => showPage('programsPage'));
+        document.getElementById('backFromReports').addEventListener('click', () => showPage('programsPage'));
+        document.getElementById('backFromFrl').addEventListener('click', () => showPage('programsPage'));
+        document.getElementById('backFromUc').addEventListener('click', () => showPage('programsPage'));
+
+        // ===== PROGRAM ACTION BUTTONS =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load Global Health Innovation Grants data
+            loadGlobalHealthData();
+            
+            const actionButtons = document.querySelectorAll('.action-btn:not(.disabled)');
+            
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const program = this.getAttribute('data-program');
+                    currentProgram = program;
+                    
+                    // Show loading state
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                    this.disabled = true;
+                    
+                    // Simulate API call delay
+                    setTimeout(() => {
+                        // Reset button
+                        this.innerHTML = originalText;
+                        this.disabled = false;
+                        
+                        // Handle different actions
+                        switch(action) {
+                            case 'recipient':
+                                navigateToRecipients(program);
+                                break;
+                            case 'report':
+                                navigateToReports(program);
+                                break;
+                            case 'frl':
+                                navigateToFrl(program);
+                                break;
+                            case 'uc':
+                                navigateToUc(program);
+                                break;
+                            case 'feedback':
+                                openFeedbackModal(program);
+                                break;
+                        }
+                    }, 500);
+                });
+            });
+            
+            // Load Global Health Innovation Grants data function
+            function loadGlobalHealthData() {
+                const globalHealthData = [
+                    {
+                        piName: "Dr. Rajesh Kumar",
+                        piContact: "+91-9876543210",
+                        piEmail: "rajesh.kumar@iitk.ac.in",
+                        actions: [
+                            { type: "report", label: "View Report", available: true },
+                            { type: "view", label: "View", available: true },
+                            { type: "download", label: "Download", available: true }
+                        ]
+                    },
+                    {
+                        piName: "Dr. Priya Sharma",
+                        piContact: "+91-9876543211",
+                        piEmail: "priya.sharma@iitk.ac.in",
+                        actions: [
+                            { type: "view", label: "View", available: true },
+                            { type: "download", label: "Download", available: true }
+                        ]
+                    },
+                    {
+                        piName: "Dr. Amit Patel",
+                        piContact: "+91-9876543212",
+                        piEmail: "amit.patel@iitk.ac.in",
+                        actions: [
+                            { type: "view", label: "View", available: true },
+                            { type: "download", label: "Download", available: true }
+                        ]
+                    },
+                    {
+                        piName: "Dr. Sunita Verma",
+                        piContact: "+91-9876543213",
+                        piEmail: "sunita.verma@iitk.ac.in",
+                        actions: [
+                            { type: "report", label: "View Report", available: true },
+                            { type: "view", label: "View", available: true },
+                            { type: "download", label: "Download", available: true }
+                        ]
+                    }
+                ];
+                
+                const tableBody = document.getElementById('globalHealthTableBody');
+                tableBody.innerHTML = '';
+                
+                globalHealthData.forEach(item => {
+                    const row = document.createElement('tr');
+                    
+                    // Create action buttons HTML
+                    let actionsHTML = '';
+                    item.actions.forEach(action => {
+                        if (action.type === 'disabled') {
+                            actionsHTML += `
+                                <button class="table-btn disabled">
+                                    <i class="fas fa-times-circle"></i>
+                                    ${action.label}
+                                </button>
+                            `;
+                        } else if (action.type === 'report') {
+                            actionsHTML += `
+                                <button class="table-btn view">
+                                    <i class="fas fa-eye"></i>
+                                    ${action.label}
+                                </button>
+                            `;
+                        } else if (action.type === 'view') {
+                            actionsHTML += `
+                                <button class="table-btn view">
+                                    <i class="fas fa-eye"></i>
+                                    ${action.label}
+                                </button>
+                            `;
+                        } else if (action.type === 'download') {
+                            actionsHTML += `
+                                <button class="table-btn download">
+                                    <i class="fas fa-download"></i>
+                                    ${action.label}
+                                </button>
+                            `;
+                        }
+                    });
+                    
+                    row.innerHTML = `
+                        <td>${item.piName}</td>
+                        <td>${item.piContact}</td>
+                        <td>${item.piEmail}</td>
+                        <td>
+                            <div class="table-actions">
+                                ${actionsHTML}
+                            </div>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+                
+                // Add event listeners to table buttons
+                document.querySelectorAll('#globalHealthTableBody .table-btn:not(.disabled)').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const btnType = this.classList.contains('view') ? 'View' : 'Download';
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                            showToast(`${btnType} action completed successfully`, 'success');
+                        }, 600);
+                    });
+                });
+            }
+            
+            // Action handlers
+            function navigateToRecipients(program) {
+                if (program === "Global Health Innovation Grants") {
+                    document.getElementById('recipientProgramIndicator').textContent = program;
+                    showPage('recipientsPage');
+                    showToast(`Viewing recipients for ${program}`, 'info');
+                } else {
+                    showToast(`Recipients data not available for ${program}`, 'warning');
+                }
+            }
+            
+            function navigateToReports(program) {
+                document.getElementById('reportProgramIndicator').textContent = program;
+                showPage('reportsPage');
+                showToast(`Viewing reports for ${program}`, 'info');
+            }
+            
+            function navigateToFrl(program) {
+                document.getElementById('frlProgramIndicator').textContent = program;
+                showPage('frlPage');
+                showToast(`Viewing FRL for ${program}`, 'info');
+            }
+            
+            function navigateToUc(program) {
+                document.getElementById('ucProgramIndicator').textContent = program;
+                showPage('ucPage');
+                showToast(`Viewing UC for ${program}`, 'info');
+            }
+            
+            // Report buttons
+            document.querySelectorAll('.report-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const report = this.getAttribute('data-report');
+                    
+                    // Show loading state
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        
+                        if (report.includes('download')) {
+                            showToast('Report download started!', 'success');
+                        } else {
+                            showToast('Opening report in new tab...', 'info');
+                        }
+                    }, 800);
+                });
+            });
+            
+            // Document links
+            document.querySelectorAll('.doc-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showToast('Opening document in new tab...', 'info');
+                });
+            });
+        });
+
+        // ===== FEEDBACK MODAL =====
+        function openFeedbackModal(program) {
+            document.getElementById('feedbackProgramTitle').textContent = `${program} - Feedback`;
+            document.getElementById('feedbackModal').style.display = 'flex';
+            document.getElementById('feedbackModal').classList.add('active');
+            
+            // Reset form
+            document.getElementById('feedbackForm').reset();
+            document.getElementById('ratingValue').value = '0';
+            document.getElementById('ratingText').textContent = 'Click to rate';
+            
+            // Reset stars
+            document.querySelectorAll('#ratingStars .star').forEach(star => {
+                star.querySelector('i').className = 'far fa-star';
+                star.classList.remove('active');
+            });
+        }
+
+        function closeFeedbackModal() {
+            document.getElementById('feedbackModal').style.display = 'none';
+            document.getElementById('feedbackModal').classList.remove('active');
+        }
+
+        // Star rating functionality
+        const ratingTexts = {
+            0: 'Click to rate',
+            1: 'Poor',
+            2: 'Fair',
+            3: 'Good',
+            4: 'Very Good',
+            5: 'Excellent'
+        };
+
+        document.querySelectorAll('#ratingStars .star').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                document.getElementById('ratingValue').value = rating;
+                document.getElementById('ratingText').textContent = ratingTexts[rating];
+                
+                // Update star display
+                document.querySelectorAll('#ratingStars .star').forEach((s, index) => {
+                    const icon = s.querySelector('i');
+                    if (index < rating) {
+                        icon.className = 'fas fa-star';
+                        s.classList.add('active');
+                    } else {
+                        icon.className = 'far fa-star';
+                        s.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Hover effect for stars
+            star.addEventListener('mouseenter', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                document.querySelectorAll('#ratingStars .star').forEach((s, index) => {
+                    const icon = s.querySelector('i');
+                    if (index < rating) {
+                        icon.style.color = '#ffc107';
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseleave', function() {
+                const currentRating = parseInt(document.getElementById('ratingValue').value);
+                document.querySelectorAll('#ratingStars .star').forEach((s, index) => {
+                    const icon = s.querySelector('i');
+                    if (index >= currentRating) {
+                        icon.style.color = '';
+                    }
+                });
+            });
+        });
+
+        // Modal close buttons
+        document.getElementById('closeFeedbackModal').addEventListener('click', closeFeedbackModal);
+        document.getElementById('cancelFeedback').addEventListener('click', closeFeedbackModal);
+
+        // Close modal when clicking outside
+        document.getElementById('feedbackModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeFeedbackModal();
+            }
+        });
+
+        // Feedback form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const rating = document.getElementById('ratingValue').value;
+            const comments = this.elements['comments'].value;
+            
+            if (rating === '0') {
+                showToast('Please provide a rating.', 'warning');
+                return;
+            }
+            
+            if (!comments.trim()) {
+                showToast('Please provide comments.', 'warning');
+                return;
+            }
+            
+            // Show submitting state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                showToast(`Thank you for your feedback on ${currentProgram}!`, 'success');
+                closeFeedbackModal();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+
+        // ===== NOTIFICATION BELL =====
+        document.querySelector('.notification-bell').addEventListener('click', function () {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+            
+            // Mark notifications as read
+            const countElement = this.querySelector('.notification-count');
+            if (countElement.textContent !== '0') {
+                const originalCount = countElement.textContent;
+                countElement.textContent = '0';
+                countElement.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                
+                showToast(`${originalCount} notifications marked as read`, 'success');
+                
+                // Reset count after 5 seconds
+                setTimeout(() => {
+                    countElement.textContent = originalCount;
+                    countElement.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                }, 5000);
+            } else {
+                showToast('No new notifications', 'info');
+            }
+        });
+
+        // ===== SEARCH FUNCTIONALITY =====
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.trim();
+                if (searchTerm) {
+                    // Search animation
+                    const icon = this.parentElement.querySelector('.search-icon');
+                    icon.style.color = 'var(--primary-color)';
+                    icon.style.transform = 'scale(1.2)';
+                    
+                    // Filter programs
+                    filterPrograms(searchTerm);
+                    
+                    setTimeout(() => {
+                        icon.style.color = '';
+                        icon.style.transform = '';
+                    }, 500);
+                }
+            }
+        });
+
+        // Filter programs by search term
+        function filterPrograms(searchTerm) {
+            const cards = document.querySelectorAll('.program-card');
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.program-title').textContent.toLowerCase();
+                if (title.includes(searchTerm.toLowerCase())) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                    // Add highlight animation
+                    card.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            if (visibleCount === 0) {
+                showToast(`No programs found for "${searchTerm}"`, 'warning');
+            } else {
+                showToast(`Found ${visibleCount} program(s) for "${searchTerm}"`, 'success');
+            }
+        }
+
+        // ===== TOAST NOTIFICATION =====
+        function showToast(message, type = 'info') {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+            
+            // Create toast
+            const toast = document.createElement('div');
+            toast.className = `toast`;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: var(--card-bg);
+                color: var(--text-primary);
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 20px var(--shadow-color);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                z-index: 3000;
+                animation: toastSlideIn 0.3s ease;
+                border-left: 4px solid ${type === 'success' ? '#27ae60' : type === 'warning' ? '#f39c12' : '#3498db'};
+                border: 1px solid var(--border-color);
+                max-width: 350px;
+                font-weight: 500;
+            `;
+            
+            const icon = type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+            toast.innerHTML = `
+                <i class="fas fa-${icon}" style="color: ${type === 'success' ? '#27ae60' : type === 'warning' ? '#f39c12' : '#3498db'}; font-size: 18px;"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'toastSlideOut 0.3s ease';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // ===== ANIMATE CARDS ON LOAD =====
+        function animateCards() {
+            const programCards = document.querySelectorAll('.program-card');
+            programCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100 + 300);
+            });
+        }
+
+        // Initial animation
+        document.addEventListener('DOMContentLoaded', function () {
+            animateCards();
+        });
+    </script>
+</body>
+</html>

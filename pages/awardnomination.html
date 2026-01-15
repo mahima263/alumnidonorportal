@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Award Nominations - IITK Alumni Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Page-specific CSS -->
+    <style>
+        :root {
+            --primary-color: #b04b34;
+            --primary-dark: #8f3c2a;
+            --primary-light: #f8f1ef;
+            --text-dark: #333333;
+            --text-medium: #666666;
+            --text-light: #888888;
+            --border-color: #e0e0e0;
+            --light-bg: #f9f9f9;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Award Cards Layout - 2 cards per row */
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .award-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .award-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .award-header {
+            background: white;
+            color: var(--text-dark);
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+        
+        .award-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .award-acronym {
+            display: inline-block;
+            padding: 6px 16px;
+            background-color: var(--primary-light);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 8px;
+            letter-spacing: 1px;
+            
+        }
+        
+        .award-description {
+            padding: 20px 24px;
+            flex-grow: 1;
+        }
+        
+        .description-text {
+            color: var(--text-medium);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+        
+        /* Status Indicators */
+        .status-section {
+            padding: 0 24px 16px;
+        }
+        
+        .status-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-indicators {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--light-bg);
+            color: var(--text-medium);
+            border: 1px solid var(--border-color);
+        }
+        
+        .status-icon {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Action Buttons */
+        .action-buttons-section {
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--light-bg);
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .btn-award {
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        
+        .btn-nominate {
+            background-color: var(--primary-color);
+            color: white;
+            grid-column: span 2;
+        }
+        
+        .btn-nominate:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-view-draft,
+        .btn-view-final,
+        .btn-submit,
+        .btn-share {
+            background-color: white;
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-view-draft:hover,
+        .btn-view-final:hover,
+        .btn-submit:hover,
+        .btn-share:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-top: 8px;
+        }
+        
+        /* Timeline Section */
+        .timeline-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .timeline-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+        
+        .timeline-step.active .step-icon {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .timeline-step.completed .step-icon {
+            background-color: var(--text-dark);
+            color: white;
+            border-color: var(--text-dark);
+        }
+        
+        .step-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        
+        .step-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .step-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            top: 22px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .awards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .awards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .timeline-line {
+                display: none;
+            }
+            
+            .timeline-step {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                text-align: left;
+            }
+            
+            .step-icon {
+                margin: 0;
+                flex-shrink: 0;
+            }
+        }
+        
+        /* For larger screens - show 2 cards per row */
+        @media (min-width: 1200px) {
+            .awards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-btn {
+            padding: 8px 18px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-medium);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Content Cards */
+        .content-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .content-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .content-subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        
+        /* Welcome section */
+        .welcome-text {
+            color: var(--text-medium);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        /* Custom badges for legend */
+        .status-legend .badge {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            background-color: var(--light-bg);
+            color: var(--text-medium);
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="../assets/CL_logo-02.png" alt="IITK Logo" class="institute-logo">
+               
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <!-- Dashboard -->
+            <a href="../index.html" class="nav-item">
+                <i class="fas fa-chart-pie nav-icon"></i>
+                <span class="nav-label">Dashboard</span>
+            </a>
+
+            <!-- Upcoming Events Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-calendar-alt nav-icon"></i>
+                    <span class="nav-label">Upcoming Events</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="reunionpage.html" class="dropdown-item">
+                        <i class="fas fa-users me-2"></i>Reunion & Survey
+                    </a>
+                    <a href="otherevents.html" class="dropdown-item">
+                        <i class="fas fa-calendar-week me-2"></i>Other Events
+                    </a>
+                </div>
+            </div>
+
+            <!-- Award Nominations -->
+            <a href="awardnomination.html" class="nav-item active">
+                <i class="fas fa-award nav-icon"></i>
+                <span class="nav-label">Award Nominations</span>
+            </a>
+
+            <!-- Giving Back -->
+            <a href="givingback.html" class="nav-item">
+                <i class="fas fa-hand-holding-heart nav-icon"></i>
+                <span class="nav-label">Giving Back</span>
+            </a>
+
+            <!-- Pledges -->
+            <a href="pledge.html" class="nav-item">
+                <i class="fas fa-handshake nav-icon"></i>
+                <span class="nav-label">Pledges</span>
+            </a>
+
+            <!-- My Contributions Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-donate nav-icon"></i>
+                    <span class="nav-label">My Contributions</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="donationhistory.html" class="dropdown-item">
+                        <i class="fas fa-history me-2"></i>Donation History
+                    </a>
+                    <a href="programs.html" class="dropdown-item">
+                        <i class="fas fa-project-diagram me-2"></i>Programs
+                    </a>
+                    <a href="projects.html" class="dropdown-item">
+                        <i class="fas fa-tasks me-2"></i>Projects
+                    </a>
+                </div>
+            </div>
+
+            <!-- My Services Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-concierge-bell nav-icon"></i>
+                    <span class="nav-label">My Services</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="vhbooking.html" class="dropdown-item">
+                        <i class="fas fa-hotel me-2"></i>VH Booking
+                    </a>
+                    <a href="Alumni services.html" class="dropdown-item">
+                        <i class="fas fa-user-graduate me-2"></i>Alumni Services
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>© 2025 IIT Kanpur Alumni Association</p>
+            <p style="margin-top: 4px; font-size: 10px; color: var(--text-medium);">Version 2.5.1</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <div class="page-title">Award Nominations</div>
+                <div class="date-display" id="currentDate">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Loading date...</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search awards...">
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">4</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="../assets/profile.jpg" alt="Profile" class="profile-img">
+                        <div class="profile-info">
+                            <div class="profile-name">Dr. Rajesh Verma</div>
+                            <div class="profile-role">Class of 2005</div>
+                        </div>
+                        <i class="fas fa-chevron-down profile-arrow"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Welcome Section -->
+            <div class="content-card">
+                <h1 class="content-title">
+                    <i class="fas fa-award"></i>
+                    Alumni Award Nominations
+                </h1>
+                
+            </div>
+
+            <!-- Filter Section -->
+            <div class="content-card">
+                <h2 class="content-subtitle">Award Categories</h2>
+                <div class="filter-section">
+                    <button class="filter-btn active">All Awards</button>
+                    <button class="filter-btn">Open for Nomination</button>
+                    <button class="filter-btn">My Nominations</button>
+                </div>
+                
+                <!-- Award Cards in sequence: DAA, DSA, YAA, SKDA -->
+                <div class="awards-grid">
+                    
+                    <!-- Row 1: Column 1 - Distinguished Alumnus Award (DAA) -->
+                    <div class="award-card">
+                        <div class="award-header">
+                            <div class="award-title">Distinguished Alumni Award</div>
+                            <div class="award-acronym">DAA</div>
+                        </div>
+                        
+                        <div class="award-description">
+                            <p class="description-text">
+                                The highest honor conferred upon alumni who have attained exceptional distinction in their 
+                                professional fields and brought honor to IIT Kanpur through outstanding achievements.
+                            </p>
+                        </div>
+                        
+                        <div class="status-section">
+                            <div class="status-title">Nomination Status</div>
+                            <div class="status-indicators">
+                                <div class="status-badge">
+                                    <i class="fas fa-file-alt status-icon"></i>
+                                    Draft (3)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons-section">
+                            <div class="action-buttons">
+                                <button class="btn-award btn-nominate">
+                                    <i class="fas fa-plus-circle"></i>
+                                    Nominate Candidate
+                                </button>
+                                <button class="btn-award btn-view-draft">
+                                    <i class="fas fa-file-alt"></i>
+                                    View Draft
+                                </button>
+                                <button class="btn-award btn-view-final">
+                                    <i class="fas fa-eye"></i>
+                                    View Final
+                                </button>
+                                <button class="btn-award btn-submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Submit Nomination
+                                </button>
+                                <button class="btn-award btn-share">
+                                    <i class="fas fa-share-alt"></i>
+                                    Share / Send Nomination
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Row 1: Column 2 - Distinguished Services Award (DSA) -->
+                    <div class="award-card">
+                        <div class="award-header">
+                            <div class="award-title">Distinguished Services Award</div>
+                            <div class="award-acronym">DSA</div>
+                        </div>
+                        
+                        <div class="award-description">
+                            <p class="description-text">
+                                Honors alumni who have made significant contributions to IIT Kanpur through sustained service, 
+                                philanthropy, or leadership roles that have substantially benefited the institute.
+                            </p>
+                        </div>
+                        
+                        <div class="status-section">
+                            <div class="status-title">Nomination Status</div>
+                            <div class="status-indicators">
+                                <div class="status-badge">
+                                    <i class="fas fa-file-alt status-icon"></i>
+                                    Draft (1)
+                                </div>
+                                <div class="status-badge">
+                                    <i class="fas fa-paper-plane status-icon"></i>
+                                    Submitted (2)
+                                </div>
+                                <div class="status-badge">
+                                    <i class="fas fa-check-circle status-icon"></i>
+                                    Final (1)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons-section">
+                            <div class="action-buttons">
+                                <button class="btn-award btn-nominate">
+                                    <i class="fas fa-plus-circle"></i>
+                                    Nominate Candidate
+                                </button>
+                                <button class="btn-award btn-view-draft">
+                                    <i class="fas fa-file-alt"></i>
+                                    View Draft
+                                </button>
+                                <button class="btn-award btn-view-final">
+                                    <i class="fas fa-eye"></i>
+                                    View Final
+                                </button>
+                                <button class="btn-award btn-submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Submit Nomination
+                                </button>
+                                <button class="btn-award btn-share">
+                                    <i class="fas fa-share-alt"></i>
+                                    Share / Send Nomination
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Row 2: Column 1 - Young Alumnus Award (YAA) -->
+                    <div class="award-card">
+                        <div class="award-header">
+                            <div class="award-title">Young Alumni Award</div>
+                            <div class="award-acronym">YAA</div>
+                        </div>
+                        
+                        <div class="award-description">
+                            <p class="description-text">
+                                Recognizes alumni under 35 years who have demonstrated exceptional professional achievement, 
+                                leadership, and service to society. Celebrates early-career excellence and innovation.
+                            </p>
+                        </div>
+                        
+                        <div class="status-section">
+                            <div class="status-title">Nomination Status</div>
+                            <div class="status-indicators">
+                                <div class="status-badge">
+                                    <i class="fas fa-file-alt status-icon"></i>
+                                    Draft (2)
+                                </div>
+                                <div class="status-badge">
+                                    <i class="fas fa-paper-plane status-icon"></i>
+                                    Submitted (1)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons-section">
+                            <div class="action-buttons">
+                                <button class="btn-award btn-nominate">
+                                    <i class="fas fa-plus-circle"></i>
+                                    Nominate Candidate
+                                </button>
+                                <button class="btn-award btn-view-draft">
+                                    <i class="fas fa-file-alt"></i>
+                                    View Draft
+                                </button>
+                                <button class="btn-award btn-view-final">
+                                    <i class="fas fa-eye"></i>
+                                    View Final
+                                </button>
+                                <button class="btn-award btn-submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Submit Nomination
+                                </button>
+                                <button class="btn-award btn-share">
+                                    <i class="fas fa-share-alt"></i>
+                                    Share / Send Nomination
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Row 2: Column 2 - Satyendra K. Dubey Memorial Award (SKDA) -->
+                    <div class="award-card">
+                        <div class="award-header">
+                            <div class="award-title">Satyendra K. Dubey Memorial Award</div>
+                            <div class="award-acronym">SKDA</div>
+                        </div>
+                        
+                        <div class="award-description">
+                            <p class="description-text">
+                                Awarded to alumni who have demonstrated exceptional courage, integrity, and commitment to 
+                                ethical values in public life. Honors the legacy of Satyendra K. Dubey (Civil 1994).
+                            </p>
+                        </div>
+                        
+                        <div class="status-section">
+                            <div class="status-title">Nomination Status</div>
+                            <div class="status-indicators">
+                                <div class="status-badge">
+                                    <i class="fas fa-paper-plane status-icon"></i>
+                                    Submitted (1)
+                                </div>
+                                <div class="status-badge">
+                                    <i class="fas fa-check-circle status-icon"></i>
+                                    Final (2)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons-section">
+                            <div class="action-buttons">
+                                <button class="btn-award btn-nominate">
+                                    <i class="fas fa-plus-circle"></i>
+                                    Nominate Candidate
+                                </button>
+                                <button class="btn-award btn-view-draft">
+                                    <i class="fas fa-file-alt"></i>
+                                    View Draft
+                                </button>
+                                <button class="btn-award btn-view-final">
+                                    <i class="fas fa-eye"></i>
+                                    View Final
+                                </button>
+                                <button class="btn-award btn-submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Submit Nomination
+                                </button>
+                                <button class="btn-award btn-share">
+                                    <i class="fas fa-share-alt"></i>
+                                    Share / Send Nomination
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Nomination Timeline -->
+            <div class="timeline-section">
+                <h3 class="timeline-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Nomination Timeline 2025
+                </h3>
+                
+                <div class="timeline-steps">
+                    <div class="timeline-line"></div>
+                    
+                    <div class="timeline-step completed">
+                        <div class="step-icon">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-label">Nominations Open</div>
+                            <div class="step-date">Jan 1, 2025</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-step active">
+                        <div class="step-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-label">Submission Period</div>
+                            <div class="step-date">Till Mar 31, 2025</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-label">Review Process</div>
+                            <div class="step-date">Apr 1 - Jun 30, 2025</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-icon">
+                            <i class="fas fa-vote-yea"></i>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-label">Committee Decision</div>
+                            <div class="step-date">Jul 1-15, 2025</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-step">
+                        <div class="step-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-label">Award Ceremony</div>
+                            <div class="step-date">Oct 15, 2025</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 pt-3 border-top">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center gap-3 status-legend">
+                                <div class="text-muted small">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Status Legend:
+                                </div>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <span class="badge">Draft</span>
+                                    <span class="badge">Submitted</span>
+                                    <span class="badge">Final</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-sm" style="background-color: var(--primary-color); color: white; border: none;">
+                                <i class="fas fa-question-circle me-2"></i>Nomination Guidelines
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/main.js"></script>
+</body>
+</html>

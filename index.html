@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - IITK Alumni Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="light">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="assets/CL_logo-02.png" alt="IITK Logo" class="institute-logo">
+               
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <!-- Dashboard -->
+            <a href="index.html" class="nav-item active">
+                <i class="fas fa-chart-pie nav-icon"></i>
+                <span class="nav-label">Dashboard</span>
+            </a>
+
+            <!-- Upcoming Events Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-calendar-alt nav-icon"></i>
+                    <span class="nav-label">Upcoming Events</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="pages/reunionsurvey.html" class="dropdown-item">
+                        <i class="fas fa-users me-2"></i>Reunion & Survey
+                    </a>
+                    <a href="pages/otherevents.html" class="dropdown-item">
+                        <i class="fas fa-calendar-week me-2"></i>Other Events
+                    </a>
+                </div>
+            </div>
+
+            <!-- Award Nominations -->
+            <a href="pages/awardnomination.html" class="nav-item">
+                <i class="fas fa-award nav-icon"></i>
+                <span class="nav-label">Award Nominations</span>
+            </a>
+
+            <!-- Giving Back -->
+            <a href="pages/givingback.html" class="nav-item">
+                <i class="fas fa-hand-holding-heart nav-icon"></i>
+                <span class="nav-label">Giving Back</span>
+            </a>
+
+            <!-- Pledges -->
+            <a href="pages/pledge.html" class="nav-item">
+                <i class="fas fa-handshake nav-icon"></i>
+                <span class="nav-label">Pledge</span>
+            </a>
+
+            <!-- My Contributions Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-donate nav-icon"></i>
+                    <span class="nav-label">My Contributions</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="pages/donationhistory.html" class="dropdown-item">
+                        <i class="fas fa-history me-2"></i>Donation History
+                    </a>
+                    <a href="pages/programs.html" class="dropdown-item">
+                        <i class="fas fa-project-diagram me-2"></i>Programs
+                    </a>
+                    <a href="pages/projects.html" class="dropdown-item">
+                        <i class="fas fa-tasks me-2"></i>Projects
+                    </a>
+                </div>
+            </div>
+
+            <!-- My Services Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-concierge-bell nav-icon"></i>
+                    <span class="nav-label">My Services</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="pages/vhbooking.html" class="dropdown-item">
+                        <i class="fas fa-hotel me-2"></i>VH Booking
+                    </a>
+                    <a href="pages/Alumni services.html" class="dropdown-item">
+                        <i class="fas fa-user-graduate me-2"></i>Alumni Services
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>© 2026 IIT Kanpur Alumni Association</p>
+            <p style="margin-top: 4px; font-size: 10px; color: var(--text-secondary);">Version 2.5.1</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <div class="page-title">Dashboard</div>
+                <div class="date-display" id="currentDate">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Loading date...</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search alumni, events...">
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="assets/profile.jpg" alt="Profile" class="profile-img">
+                        <div class="profile-info">
+                            <div class="profile-name">Dr. Rajesh Verma</div>
+                            <div class="profile-role">Class of 2005</div>
+                        </div>
+                        <i class="fas fa-chevron-down profile-arrow"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Welcome Card -->
+            <div class="content-card">
+                <h1 class="content-title">Welcome to IITK Alumni Portal</h1>
+                <p class="content-text">
+                    Welcome back, Dr. Rajesh Verma! Stay connected with your alma mater and fellow alumni through this portal.
+                    Here you can manage your contributions, participate in events, and access exclusive alumni services.
+                </p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <div class="stat-value">₹5,25,000</div>
+                        <div class="stat-label">Total Contributions</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-trophy"></i>
+                        <div class="stat-value">Gold</div>
+                        <div class="stat-label">Donor Level</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Active Projects</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="content-card">
+                <h2 class="content-subtitle">Recent Activities</h2>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Activity</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2024-03-15</td>
+                                <td>Scholarship Fund Donation</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><button class="btn btn-sm btn-primary">View Receipt</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-03-10</td>
+                                <td>Alumni Reunion Registration</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td><button class="btn btn-sm btn-secondary">View Details</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-03-05</td>
+                                <td>Research Grant Application</td>
+                                <td><span class="badge bg-info">Under Review</span></td>
+                                <td><button class="btn btn-sm btn-secondary">Check Status</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="content-card">
+                <h2 class="content-subtitle">Quick Links</h2>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <a href="pages/donation-history.html" class="quick-link-card">
+                            <i class="fas fa-history"></i>
+                            <span>Donation History</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <a href="pages/vh-booking.html" class="quick-link-card">
+                            <i class="fas fa-hotel"></i>
+                            <span>Book VH</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <a href="pages/reunion-survey.html" class="quick-link-card">
+                            <i class="fas fa-users"></i>
+                            <span>Upcoming Events</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <a href="pages/award-nominations.html" class="quick-link-card">
+                            <i class="fas fa-award"></i>
+                            <span>Nominate Awards</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>

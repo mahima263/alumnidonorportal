@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation History - IITK Alumni Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Page-specific CSS -->
+    <style>
+        /* Filter Bar Styles */
+        .filter-bar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .filter-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-title i {
+            color: var(--primary-color);
+        }
+        
+        .filter-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .pan-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-secondary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .pan-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        
+        .pan-input {
+            border: none;
+            background: transparent;
+            padding: 4px 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            min-width: 120px;
+            outline: none;
+        }
+        
+        .pan-input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        
+        .pan-input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .verify-btn, .filter-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .verify-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .verify-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .filter-btn {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .filter-btn:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-1px);
+        }
+        
+        /* Table Container */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        
+        .donation-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+        
+        .donation-table thead {
+            background: var(--bg-secondary);
+        }
+        
+        .donation-table th {
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .donation-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .donation-table tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        .donation-table tbody tr:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .table-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .table-btn.view-receipt {
+            background: rgba(66, 153, 225, 0.1);
+            color: #4299e1;
+        }
+        
+        .table-btn.view-receipt:hover {
+            background: rgba(66, 153, 225, 0.2);
+        }
+        
+        .table-btn.download-receipt {
+            background: rgba(72, 187, 120, 0.1);
+            color: #48bb78;
+        }
+        
+        .table-btn.download-receipt:hover {
+            background: rgba(72, 187, 120, 0.2);
+        }
+        
+        .table-btn.request-receipt {
+            background: rgba(237, 137, 54, 0.1);
+            color: #ed8936;
+        }
+        
+        .table-btn.request-receipt:hover {
+            background: rgba(237, 137, 54, 0.2);
+        }
+        
+        .table-btn.cancel-request {
+            background: rgba(245, 101, 101, 0.1);
+            color: #f56565;
+        }
+        
+        .table-btn.cancel-request:hover {
+            background: rgba(245, 101, 101, 0.2);
+        }
+        
+        .table-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-verified {
+            background: rgba(72, 187, 120, 0.1);
+            color: #48bb78;
+        }
+        
+        .status-pending {
+            background: rgba(237, 137, 54, 0.1);
+            color: #ed8936;
+        }
+        
+        .status-cancelled {
+            background: rgba(245, 101, 101, 0.1);
+            color: #f56565;
+        }
+        
+        /* Currency Styling */
+        .currency {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .amount, .converted-amount {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .converted-amount {
+            color: var(--primary-color);
+        }
+        
+        /* Tax Requirement Cell */
+        .tax-req-cell {
+            text-align: center;
+        }
+        
+        .tax-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: not-allowed;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: transparent;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .document-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.2s ease;
+        }
+        
+        .document-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .doc-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .doc-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(66, 153, 225, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #4299e1;
+        }
+        
+        .doc-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .doc-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .doc-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+        
+        .doc-btn.view {
+            background: rgba(66, 153, 225, 0.1);
+            color: #4299e1;
+        }
+        
+        .doc-btn.view:hover {
+            background: rgba(66, 153, 225, 0.2);
+        }
+        
+        .doc-btn.download {
+            background: rgba(72, 187, 120, 0.1);
+            color: #48bb78;
+        }
+        
+        .doc-btn.download:hover {
+            background: rgba(72, 187, 120, 0.2);
+        }
+        
+        .modal-actions {
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 24px;
+            background: white;
+            border-radius: 8px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1100;
+            animation: toastSlideIn 0.3s ease;
+            max-width: 400px;
+        }
+        
+        @keyframes toastSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes toastSlideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+        
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+        
+        .toast-message {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .pan-container {
+                justify-content: space-between;
+            }
+            
+            .verify-btn, .filter-btn {
+                justify-content: center;
+            }
+            
+            .table-actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="../assets/logo.png" alt="IITK Logo" class="institute-logo">
+                <div class="institute-name">IIT Kanpur</div>
+                <div class="institute-subtitle">Alumni Portal</div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <!-- Dashboard -->
+            <a href="../index.html" class="nav-item">
+                <i class="fas fa-chart-pie nav-icon"></i>
+                <span class="nav-label">Dashboard</span>
+            </a>
+
+            <!-- Upcoming Events Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-calendar-alt nav-icon"></i>
+                    <span class="nav-label">Upcoming Events</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="reunion-survey.html" class="dropdown-item">
+                        <i class="fas fa-users me-2"></i>Reunion & Survey
+                    </a>
+                    <a href="other-events.html" class="dropdown-item">
+                        <i class="fas fa-calendar-week me-2"></i>Other Events
+                    </a>
+                </div>
+            </div>
+
+            <!-- Award Nominations -->
+            <a href="award-nominations.html" class="nav-item">
+                <i class="fas fa-award nav-icon"></i>
+                <span class="nav-label">Award Nominations</span>
+            </a>
+
+            <!-- Giving Back -->
+            <a href="giving-back.html" class="nav-item">
+                <i class="fas fa-hand-holding-heart nav-icon"></i>
+                <span class="nav-label">Giving Back</span>
+            </a>
+
+            <!-- Pledges -->
+            <a href="pledges.html" class="nav-item">
+                <i class="fas fa-handshake nav-icon"></i>
+                <span class="nav-label">Pledges</span>
+            </a>
+
+            <!-- My Contributions Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header active">
+                    <i class="fas fa-donate nav-icon"></i>
+                    <span class="nav-label">My Contributions</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu show">
+                    <a href="donation-history.html" class="dropdown-item active">
+                        <i class="fas fa-history me-2"></i>Donation History
+                    </a>
+                    <a href="programs.html" class="dropdown-item">
+                        <i class="fas fa-project-diagram me-2"></i>Programs
+                    </a>
+                    <a href="projects.html" class="dropdown-item">
+                        <i class="fas fa-tasks me-2"></i>Projects
+                    </a>
+                </div>
+            </div>
+
+            <!-- My Services Dropdown -->
+            <div class="nav-dropdown">
+                <div class="dropdown-header">
+                    <i class="fas fa-concierge-bell nav-icon"></i>
+                    <span class="nav-label">My Services</span>
+                    <i class="fas fa-chevron-down dropdown-chevron"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="vh-booking.html" class="dropdown-item">
+                        <i class="fas fa-hotel me-2"></i>VH Booking
+                    </a>
+                    <a href="student-services.html" class="dropdown-item">
+                        <i class="fas fa-user-graduate me-2"></i>Student Services
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>© 2025 IIT Kanpur Alumni Association</p>
+            <p style="margin-top: 4px; font-size: 10px; color: var(--text-secondary);">Version 2.5.1</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <div class="page-title">Donation History</div>
+                <div class="date-display" id="currentDate">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Loading date...</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search donations...">
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="../assets/profile.jpg" alt="Profile" class="profile-img">
+                        <div class="profile-info">
+                            <div class="profile-name">Dr. Rajesh Verma</div>
+                            <div class="profile-role">Class of 2005</div>
+                        </div>
+                        <i class="fas fa-chevron-down profile-arrow"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Welcome Card -->
+            
+
+            <!-- Filter Bar and Contribution Logs -->
+            <div class="content-card">
+                <div class="filter-bar">
+                    <div class="filter-title">
+                        <i class="fas fa-history"></i>
+                        Contribution Logs
+                    </div>
+                    
+                    <div class="filter-controls">
+                        <div class="pan-container">
+                            <span class="pan-label">Enter PAN:</span>
+                            <input type="text" class="pan-input" id="panInput" placeholder="ABCDE1234F" maxlength="10">
+                        </div>
+                        
+                        <button class="verify-btn" id="verifyPanBtn">
+                            <i class="fas fa-check-circle"></i>
+                            Verify PAN
+                        </button>
+                        
+                        <button class="filter-btn" id="filterBtn">
+                            <i class="fas fa-filter"></i>
+                            Filter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Donation Table -->
+                <div class="table-container">
+                    <div class="table-wrapper">
+                        <table class="donation-table">
+                            <thead>
+                                <tr>
+                                    <th>Actions</th>
+                                    <th>Purpose</th>
+                                    <th>Account Type</th>
+                                    <th>Currency</th>
+                                    <th>Amount</th>
+                                    <th>Exchange Rate</th>
+                                    <th>Converted Amount</th>
+                                    <th>Date of Donation</th>
+                                    <th>Transaction Mode</th>
+                                    <th>PAN No.</th>
+                                    <th>Tax Receipt No.</th>
+                                    <th>Cover Letter Date</th>
+                                    <th>Receipt Date</th>
+                                    <th>Receipt Type</th>
+                                    <th>Tax Receipt Required?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Row 1 - Verified Receipt -->
+                                <tr>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-btn view-receipt" data-action="view-receipt" data-donation="1">
+                                                <i class="fas fa-eye"></i>
+                                                View Receipt
+                                            </button>
+                                            <button class="table-btn download-receipt" data-action="download-receipt" data-donation="1">
+                                                <i class="fas fa-download"></i>
+                                                Download Receipt
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>Research Grant</td>
+                                    <td>Organisation</td>
+                                    <td><span class="currency">EUR</span></td>
+                                    <td><span class="amount">10,000 EUR</span></td>
+                                    <td>89.5</td>
+                                    <td><span class="converted-amount">₹895,000</span></td>
+                                    <td>2024-01-10</td>
+                                    <td>Credit Card</td>
+                                    <td><span class="status-badge status-verified">FGHIJ5678K</span></td>
+                                    <td>TRX002</td>
+                                    <td>2024-01-12</td>
+                                    <td>2024-01-11</td>
+                                    <td><span class="status-badge status-verified">80G</span></td>
+                                    <td class="tax-req-cell">
+                                        <input type="checkbox" class="tax-checkbox" checked disabled>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Row 2 - Pending Request -->
+                                <tr>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-btn request-receipt" data-action="request-receipt" data-donation="2">
+                                                <i class="fas fa-file-invoice"></i>
+                                                Request 80G
+                                            </button>
+                                            <button class="table-btn cancel-request" data-action="cancel-request" data-donation="2">
+                                                <i class="fas fa-times"></i>
+                                                Cancel Request
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>Scholarship Fund</td>
+                                    <td>Individual</td>
+                                    <td><span class="currency">USD</span></td>
+                                    <td><span class="amount">5,000 USD</span></td>
+                                    <td>83.2</td>
+                                    <td><span class="converted-amount">₹416,000</span></td>
+                                    <td>2024-02-15</td>
+                                    <td>Bank Transfer</td>
+                                    <td><span class="status-badge status-pending">ABCDE1234F</span></td>
+                                    <td>TRX005</td>
+                                    <td>2024-02-18</td>
+                                    <td>2024-02-17</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td class="tax-req-cell">
+                                        <input type="checkbox" class="tax-checkbox" checked disabled>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Row 3 - Verified Receipt -->
+                                <tr>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-btn view-receipt" data-action="view-receipt" data-donation="3">
+                                                <i class="fas fa-eye"></i>
+                                                View Receipt
+                                            </button>
+                                            <button class="table-btn download-receipt" data-action="download-receipt" data-donation="3">
+                                                <i class="fas fa-download"></i>
+                                                Download Receipt
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>Infrastructure</td>
+                                    <td>Organisation</td>
+                                    <td><span class="currency">INR</span></td>
+                                    <td><span class="amount">₹250,000</span></td>
+                                    <td>1.0</td>
+                                    <td><span class="converted-amount">₹250,000</span></td>
+                                    <td>2024-03-20</td>
+                                    <td>UPI</td>
+                                    <td><span class="status-badge status-verified">LMNOP9012Q</span></td>
+                                    <td>TRX008</td>
+                                    <td>2024-03-22</td>
+                                    <td>2024-03-21</td>
+                                    <td><span class="status-badge status-verified">80G</span></td>
+                                    <td class="tax-req-cell">
+                                        <input type="checkbox" class="tax-checkbox" disabled>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Row 4 - Verified Receipt -->
+                                <tr>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-btn view-receipt" data-action="view-receipt" data-donation="4">
+                                                <i class="fas fa-eye"></i>
+                                                View Receipt
+                                            </button>
+                                            <button class="table-btn download-receipt" data-action="download-receipt" data-donation="4">
+                                                <i class="fas fa-download"></i>
+                                                Download Receipt
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>Faculty Support</td>
+                                    <td>Individual</td>
+                                    <td><span class="currency">GBP</span></td>
+                                    <td><span class="amount">8,000 GBP</span></td>
+                                    <td>105.3</td>
+                                    <td><span class="converted-amount">₹842,400</span></td>
+                                    <td>2024-04-12</td>
+                                    <td>Bank Transfer</td>
+                                    <td><span class="status-badge status-verified">PQRST2345U</span></td>
+                                    <td>TRX012</td>
+                                    <td>2024-04-15</td>
+                                    <td>2024-04-14</td>
+                                    <td><span class="status-badge status-verified">80G</span></td>
+                                    <td class="tax-req-cell">
+                                        <input type="checkbox" class="tax-checkbox" checked disabled>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Row 5 - Request Receipt -->
+                                <tr>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-btn request-receipt" data-action="request-receipt" data-donation="5">
+                                                <i class="fas fa-file-invoice"></i>
+                                                Request 80G
+                                            </button>
+                                            <button class="table-btn cancel-request" data-action="cancel-request" data-donation="5">
+                                                <i class="fas fa-times"></i>
+                                                Cancel Request
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>Student Welfare</td>
+                                    <td>Individual</td>
+                                    <td><span class="currency">INR</span></td>
+                                    <td><span class="amount">₹300,000</span></td>
+                                    <td>1.0</td>
+                                    <td><span class="converted-amount">₹300,000</span></td>
+                                    <td>2024-05-20</td>
+                                    <td>Credit Card</td>
+                                    <td><span class="status-badge status-pending">ABCDE1234F</span></td>
+                                    <td>TRX015</td>
+                                    <td>2024-05-22</td>
+                                    <td>2024-05-21</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td class="tax-req-cell">
+                                        <input type="checkbox" class="tax-checkbox" checked disabled>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Row 6 - Cancelled Receipt -->
+                                <tr>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-btn view-receipt disabled" data-action="view-receipt" data-donation="6" disabled>
+                                                <i class="fas fa-eye"></i>
+                                                View Receipt
+                                            </button>
+                                            <button class="table-btn cancel-request disabled" data-action="cancel-request" data-donation="6" disabled>
+                                                <i class="fas fa-times"></i>
+                                                Cancel Request
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>Research Equipment</td>
+                                    <td>Organisation</td>
+                                    <td><span class="currency">EUR</span></td>
+                                    <td><span class="amount">15,000 EUR</span></td>
+                                    <td>89.5</td>
+                                    <td><span class="converted-amount">₹1,342,500</span></td>
+                                    <td>2024-06-08</td>
+                                    <td>Bank Transfer</td>
+                                    <td><span class="status-badge status-cancelled">FGHIJ5678K</span></td>
+                                    <td>TRX018</td>
+                                    <td>2024-06-10</td>
+                                    <td>2024-06-09</td>
+                                    <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                                    <td class="tax-req-cell">
+                                        <input type="checkbox" class="tax-checkbox" disabled>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Row 7 - Verified Receipt -->
+                                <tr>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-btn view-receipt" data-action="view-receipt" data-donation="7">
+                                                <i class="fas fa-eye"></i>
+                                                View Receipt
+                                            </button>
+                                            <button class="table-btn download-receipt" data-action="download-receipt" data-donation="7">
+                                                <i class="fas fa-download"></i>
+                                                Download Receipt
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>Library Development</td>
+                                    <td>Individual</td>
+                                    <td><span class="currency">USD</span></td>
+                                    <td><span class="amount">20,000 USD</span></td>
+                                    <td>83.2</td>
+                                    <td><span class="converted-amount">₹1,664,000</span></td>
+                                    <td>2024-07-14</td>
+                                    <td>Cheque</td>
+                                    <td><span class="status-badge status-verified">KLMNO9101L</span></td>
+                                    <td>TRX021</td>
+                                    <td>2024-07-17</td>
+                                    <td>2024-07-16</td>
+                                    <td><span class="status-badge status-verified">80G</span></td>
+                                    <td class="tax-req-cell">
+                                        <input type="checkbox" class="tax-checkbox" checked disabled>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Row 8 - Request Receipt -->
+                                <tr>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-btn request-receipt" data-action="request-receipt" data-donation="8">
+                                                <i class="fas fa-file-invoice"></i>
+                                                Request 80G
+                                            </button>
+                                            <button class="table-btn cancel-request disabled" data-action="cancel-request" data-donation="8" disabled>
+                                                <i class="fas fa-times"></i>
+                                                Cancel Request
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>Sports Scholarship</td>
+                                    <td>Individual</td>
+                                    <td><span class="currency">INR</span></td>
+                                    <td><span class="amount">₹150,000</span></td>
+                                    <td>1.0</td>
+                                    <td><span class="converted-amount">₹150,000</span></td>
+                                    <td>2024-08-25</td>
+                                    <td>UPI</td>
+                                    <td><span class="status-badge status-pending">ABCDE1234F</span></td>
+                                    <td>TRX025</td>
+                                    <td>2024-08-28</td>
+                                    <td>2024-08-27</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td class="tax-req-cell">
+                                        <input type="checkbox" class="tax-checkbox" checked disabled>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== VIEW DOCUMENTS MODAL ===== -->
+    <div id="viewDocumentsModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">View Documents</h3>
+                <button class="modal-close" id="closeDocumentsModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <p>View or download the tax receipt and cover letter for your donation.</p>
+                
+                <div class="documents-grid">
+                    <div class="document-card">
+                        <div class="doc-header">
+                            <div class="doc-icon">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div>
+                                <div class="doc-title">Tax Receipt (80G)</div>
+                                <small style="color: var(--text-secondary); font-size: 12px;">For tax exemption purposes</small>
+                            </div>
+                        </div>
+                        <div class="doc-actions">
+                            <button class="doc-btn view" id="viewTaxReceiptBtn">
+                                <i class="fas fa-eye"></i>
+                                View Receipt
+                            </button>
+                            <button class="doc-btn download" id="downloadTaxReceiptBtn">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="document-card">
+                        <div class="doc-header">
+                            <div class="doc-icon">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div>
+                                <div class="doc-title">Cover Letter</div>
+                                <small style="color: var(--text-secondary); font-size: 12px;">Acknowledgement letter</small>
+                            </div>
+                        </div>
+                        <div class="doc-actions">
+                            <button class="doc-btn view" id="viewCoverLetterBtn">
+                                <i class="fas fa-eye"></i>
+                                View Letter
+                            </button>
+                            <button class="doc-btn download" id="downloadCoverLetterBtn">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="closeDocumentsBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/main.js"></script>
+    <script>
+        // Initialize page-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update total donated amount based on table data
+            updateStats();
+            
+            // Initialize the donation table functionality
+            initDonationTable();
+            
+            // Set current date
+            const currentDate = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').innerHTML = `
+                <i class="fas fa-calendar-alt"></i>
+                <span>${currentDate.toLocaleDateString('en-US', options)}</span>
+            `;
+        });
+
+        function updateStats() {
+            // Calculate total donated amount from table
+            let totalAmount = 0;
+            document.querySelectorAll('.converted-amount').forEach(element => {
+                const amountText = element.textContent.replace('₹', '').replace(/,/g, '');
+                totalAmount += parseFloat(amountText);
+            });
+            
+            // Format total amount with commas
+            const formattedTotal = totalAmount.toLocaleString('en-IN', {
+                maximumFractionDigits: 0
+            });
+            
+            // Update the stat card
+            const statValueElement = document.querySelector('.stat-card:nth-child(1) .stat-value');
+            if (statValueElement) {
+                statValueElement.textContent = `₹${formattedTotal}`;
+            }
+        }
+
+        function initDonationTable() {
+            // ===== PAN VERIFICATION =====
+            const panInput = document.getElementById('panInput');
+            const verifyBtn = document.getElementById('verifyPanBtn');
+            const filterBtn = document.getElementById('filterBtn');
+            
+            verifyBtn.addEventListener('click', function() {
+                const panValue = panInput.value.trim().toUpperCase();
+                
+                if (!panValue) {
+                    showToast('Please enter PAN number', 'warning');
+                    panInput.focus();
+                    return;
+                }
+                
+                if (panValue.length !== 10) {
+                    showToast('PAN must be 10 characters', 'warning');
+                    panInput.focus();
+                    return;
+                }
+                
+                // PAN validation regex
+                const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+                if (!panRegex.test(panValue)) {
+                    showToast('Invalid PAN format (e.g., ABCDE1234F)', 'warning');
+                    return;
+                }
+                
+                // Show loading
+                const originalText = verifyBtn.innerHTML;
+                verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+                verifyBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    showToast(`PAN ${panValue} verified successfully!`);
+                    verifyBtn.innerHTML = originalText;
+                    verifyBtn.disabled = false;
+                    
+                    // Highlight matching PAN rows
+                    document.querySelectorAll('.donation-table tbody tr').forEach(row => {
+                        const panBadge = row.querySelector('.status-badge');
+                        if (panBadge && panBadge.textContent === panValue) {
+                            row.style.backgroundColor = 'rgba(46, 204, 113, 0.1)';
+                            row.style.borderLeft = '3px solid #27ae60';
+                        }
+                    });
+                }, 1500);
+            });
+            
+            // Filter button
+            filterBtn.addEventListener('click', function() {
+                showToast('Filter functionality coming soon!');
+            });
+            
+            // Clear PAN highlights on input change
+            panInput.addEventListener('input', function() {
+                document.querySelectorAll('.donation-table tbody tr').forEach(row => {
+                    row.style.backgroundColor = '';
+                    row.style.borderLeft = '';
+                });
+            });
+
+            // ===== TABLE ACTIONS =====
+            let currentDonationId = null;
+            
+            // Handle table button clicks
+            document.addEventListener('click', function(e) {
+                // View Receipt button
+                if (e.target.closest('[data-action="view-receipt"]:not(.disabled)')) {
+                    const button = e.target.closest('[data-action="view-receipt"]');
+                    currentDonationId = button.getAttribute('data-donation');
+                    openViewDocumentsModal();
+                }
+                
+                // Download Receipt button
+                if (e.target.closest('[data-action="download-receipt"]:not(.disabled)')) {
+                    const button = e.target.closest('[data-action="download-receipt"]');
+                    const donationId = button.getAttribute('data-donation');
+                    
+                    // Show loading
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+                    button.disabled = true;
+                    
+                    setTimeout(() => {
+                        showToast('Receipt downloaded successfully');
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }, 1000);
+                }
+                
+                // Request 80G button
+                if (e.target.closest('[data-action="request-receipt"]:not(.disabled)')) {
+                    const button = e.target.closest('[data-action="request-receipt"]');
+                    const donationId = button.getAttribute('data-donation');
+                    
+                    // Show loading
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requesting...';
+                    button.disabled = true;
+                    
+                    setTimeout(() => {
+                        showToast('80G receipt request submitted');
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }, 1500);
+                }
+                
+                // Cancel Request button
+                if (e.target.closest('[data-action="cancel-request"]:not(.disabled)')) {
+                    const button = e.target.closest('[data-action="cancel-request"]');
+                    const donationId = button.getAttribute('data-donation');
+                    
+                    if (confirm('Are you sure you want to cancel this receipt request?')) {
+                        // Show loading
+                        const originalText = button.innerHTML;
+                        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cancelling...';
+                        button.disabled = true;
+                        
+                        setTimeout(() => {
+                            showToast('Receipt request cancelled');
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                        }, 1000);
+                    }
+                }
+            });
+
+            // ===== VIEW DOCUMENTS MODAL =====
+            function openViewDocumentsModal() {
+                document.getElementById('viewDocumentsModal').classList.add('active');
+            }
+
+            function closeViewDocumentsModal() {
+                document.getElementById('viewDocumentsModal').classList.remove('active');
+            }
+
+            // Modal close buttons
+            document.getElementById('closeDocumentsModal').addEventListener('click', closeViewDocumentsModal);
+            document.getElementById('closeDocumentsBtn').addEventListener('click', closeViewDocumentsModal);
+
+            // Document action buttons
+            document.getElementById('viewTaxReceiptBtn').addEventListener('click', function() {
+                showToast('Opening tax receipt in new tab...');
+            });
+            
+            document.getElementById('downloadTaxReceiptBtn').addEventListener('click', function() {
+                showToast('Downloading tax receipt...');
+            });
+            
+            document.getElementById('viewCoverLetterBtn').addEventListener('click', function() {
+                showToast('Opening cover letter in new tab...');
+            });
+            
+            document.getElementById('downloadCoverLetterBtn').addEventListener('click', function() {
+                showToast('Downloading cover letter...');
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('viewDocumentsModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeViewDocumentsModal();
+                }
+            });
+
+            // ===== TOAST NOTIFICATION =====
+            function showToast(message, type = 'success') {
+                // Remove existing toast
+                const existingToast = document.querySelector('.toast');
+                if (existingToast) existingToast.remove();
+                
+                // Create toast
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                
+                const icon = type === 'warning' ? 'exclamation-circle' : 'check-circle';
+                const iconColor = type === 'warning' ? '#f39c12' : '#27ae60';
+                
+                toast.innerHTML = `
+                    <div class="toast-icon">
+                        <i class="fas fa-${icon}" style="color: ${iconColor}"></i>
+                    </div>
+                    <div class="toast-message">${message}</div>
+                `;
+                
+                document.body.appendChild(toast);
+                
+                // Remove after 4 seconds
+                setTimeout(() => {
+                    toast.style.animation = 'toastSlideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 300);
+                }, 4000);
+            }
+
+            // ===== ENHANCED USER EXPERIENCE =====
+            // Add hover effects to table rows
+            document.querySelectorAll('.donation-table tbody tr').forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Add click effect to buttons
+            document.querySelectorAll('.btn, .table-btn, .verify-btn, .filter-btn, .doc-btn').forEach(button => {
+                button.addEventListener('mousedown', function() {
+                    if (!this.classList.contains('disabled')) {
+                        this.style.transform = 'scale(0.98)';
+                    }
+                });
+                
+                button.addEventListener('mouseup', function() {
+                    this.style.transform = '';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+            });
+
+            // Animate table rows on load
+            const tableRows = document.querySelectorAll('.donation-table tbody tr');
+            tableRows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    row.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, index * 100 + 300);
+            });
+            
+            // PAN input formatting
+            panInput.addEventListener('input', function(e) {
+                let value = e.target.value.toUpperCase();
+                value = value.replace(/[^A-Z0-9]/g, '');
+                e.target.value = value;
+            });
+        }
+    </script>
+</body>
+</html>

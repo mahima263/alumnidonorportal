@@ -18,6 +18,10 @@
             --primary-color: #b04b34;
             --primary-dark: #8f3c2a;
             --primary-light: rgba(176, 75, 52, 0.1);
+            --secondary-color: #2c5282;
+            --secondary-light: rgba(44, 82, 130, 0.1);
+            --accent-color: #2d864b;
+            --accent-light: rgba(45, 134, 75, 0.1);
             --text-dark: #333333;
             --text-medium: #666666;
             --text-light: #888888;
@@ -26,12 +30,18 @@
             --card-bg: #ffffff;
             --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             --hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #b04b34 0%, #d17a5f 100%);
+            --gradient-secondary: linear-gradient(135deg, #2c5282 0%, #4299e1 100%);
         }
 
         [data-theme="dark"] {
             --primary-color: #e67e63;
             --primary-dark: #d17a5f;
             --primary-light: rgba(230, 126, 99, 0.15);
+            --secondary-color: #63b3ed;
+            --secondary-light: rgba(99, 179, 237, 0.15);
+            --accent-color: #68d391;
+            --accent-light: rgba(104, 211, 145, 0.15);
             --text-dark: #e0e0e0;
             --text-medium: #b0b0b0;
             --text-light: #888888;
@@ -40,6 +50,8 @@
             --card-bg: #1e1e1e;
             --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
             --hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+            --gradient-primary: linear-gradient(135deg, #e67e63 0%, #f8a58d 100%);
+            --gradient-secondary: linear-gradient(135deg, #4299e1 0%, #63b3ed 100%);
         }
         
         body {
@@ -51,17 +63,29 @@
         /* Header */
         .page-header {
             background: var(--card-bg);
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 30px;
+            border-radius: 12px;
+            padding: 35px 40px;
+            margin-bottom: 40px;
             border: 1px solid var(--border-color);
             box-shadow: var(--card-shadow);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
         }
         
         .page-title {
-            font-size: 2rem;
-            font-weight: 600;
+            font-size: 2.2rem;
+            font-weight: 700;
             color: var(--text-dark);
             display: flex;
             align-items: center;
@@ -72,68 +96,117 @@
         
         .page-title i {
             color: var(--primary-color);
-            font-size: 1.8rem;
+            font-size: 2rem;
+            background: var(--primary-light);
+            padding: 15px;
+            border-radius: 12px;
         }
         
         .page-subtitle {
             font-size: 1.1rem;
             color: var(--text-medium);
             margin-top: 8px;
+            line-height: 1.5;
+            max-width: 800px;
             transition: color 0.3s ease;
+        }
+        
+        /* Stats Section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--primary-color);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            transition: color 0.3s ease;
+            font-weight: 500;
         }
         
         /* Services Grid */
         .services-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
         
         .service-item {
             background: var(--card-bg);
-            border-radius: 10px;
-            padding: 25px;
+            border-radius: 16px;
+            padding: 0;
             border: 1px solid var(--border-color);
             display: flex;
-            align-items: center;
-            gap: 20px;
+            flex-direction: column;
             transition: all 0.3s ease;
             box-shadow: var(--card-shadow);
             position: relative;
             overflow: hidden;
+            height: 100%;
         }
         
         .service-item:hover {
             border-color: var(--primary-color);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             box-shadow: var(--hover-shadow);
         }
         
-        .service-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-        
-        .service-item:hover::before {
-            width: 6px;
+        .service-header {
+            padding: 25px 25px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
         }
         
         .service-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
             background: var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary-color);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             flex-shrink: 0;
             transition: all 0.3s ease;
         }
@@ -149,49 +222,154 @@
         }
         
         .service-name {
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
             color: var(--text-dark);
-            margin: 0 0 5px 0;
+            margin: 0 0 8px 0;
             transition: color 0.3s ease;
         }
         
         .service-description {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-medium);
-            line-height: 1.4;
+            line-height: 1.5;
+            margin-bottom: 15px;
             transition: color 0.3s ease;
         }
         
-        .service-actions {
-            display: flex;
-            gap: 10px;
+        .service-details {
+            padding: 0 25px 20px;
+            border-bottom: 1px solid var(--border-color);
         }
+        
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .service-fee {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: var(--text-medium);
+        }
+        
+        .service-fee .amount {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .service-processing {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        
         
         .btn-apply {
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             white-space: nowrap;
-        }
-        
-        .btn-apply:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(176, 75, 52, 0.2);
         }
         
-        [data-theme="dark"] .btn-apply:hover {
+        .btn-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(176, 75, 52, 0.3);
+        }
+        
+        [data-theme="dark"] .btn-apply {
             box-shadow: 0 4px 12px rgba(230, 126, 99, 0.3);
+        }
+        
+        [data-theme="dark"] .btn-apply:hover {
+            box-shadow: 0 6px 16px rgba(230, 126, 99, 0.4);
+        }
+        
+        .btn-apply i {
+            font-size: 0.9rem;
+        }
+        
+        .service-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .action-card {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .action-card:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .action-text {
+            font-weight: 600;
+            color: var(--text-dark);
         }
         
         /* Modal */
@@ -202,32 +380,34 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(5px);
         }
         
         .modal-content {
             background: var(--card-bg);
-            border-radius: 12px;
+            border-radius: 16px;
             width: 90%;
-            max-width: 500px;
+            max-width: 550px;
             border: 1px solid var(--border-color);
             box-shadow: var(--hover-shadow);
             animation: modalSlideIn 0.3s ease;
             overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-30px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
         
@@ -237,12 +417,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            background: var(--gradient-primary);
             color: white;
         }
         
         .modal-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin: 0;
         }
@@ -281,23 +461,28 @@
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: var(--text-dark);
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.95rem;
             transition: color 0.3s ease;
         }
         
+        .form-label span {
+            color: var(--primary-color);
+            margin-left: 3px;
+        }
+        
         .form-control {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             background: var(--card-bg);
             color: var(--text-dark);
             font-size: 1rem;
@@ -312,9 +497,9 @@
         
         .form-select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             background: var(--card-bg);
             color: var(--text-dark);
             font-size: 1rem;
@@ -330,14 +515,14 @@
         
         .form-textarea {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             background: var(--card-bg);
             color: var(--text-dark);
             font-size: 1rem;
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
             transition: all 0.3s ease;
         }
         
@@ -352,7 +537,7 @@
             color: var(--text-dark);
             border: 1px solid var(--border-color);
             padding: 12px 24px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 500;
             font-size: 0.95rem;
             cursor: pointer;
@@ -364,111 +549,73 @@
             transform: translateY(-1px);
         }
         
-        /* Stats Section */
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: var(--card-bg);
+        /* Service Summary in Modal */
+        .service-summary {
+            background: var(--light-bg);
             border-radius: 10px;
             padding: 20px;
-            border: 1px solid var(--border-color);
-            text-align: center;
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--hover-shadow);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            line-height: 1;
-            margin-bottom: 8px;
-            transition: color 0.3s ease;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-medium);
-            transition: color 0.3s ease;
-        }
-        
-        /* Status badge for modal */
-        .status-badge {
-            display: inline-block;
-            padding: 6px 12px;
+        .service-summary-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
             background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--primary-color);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+        
+        .service-summary-info h5 {
+            margin: 0 0 5px 0;
+            color: var(--text-dark);
+        }
+        
+        .service-summary-info p {
+            margin: 0;
+            color: var(--text-medium);
+            font-size: 0.9rem;
         }
         
         /* Fee display in modal */
         .fee-display {
-            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--accent-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .fee-label {
             font-weight: 600;
-            color: var(--primary-color);
-            margin: 10px 0;
+            color: var(--text-dark);
+        }
+        
+        .fee-amount {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-color);
         }
         
         /* Processing time display */
         .processing-time {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             color: var(--text-medium);
             font-size: 0.9rem;
-            margin: 10px 0;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .services-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .service-item {
-                padding: 20px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                margin: 20px;
-            }
-            
-            .page-header {
-                padding: 20px;
-            }
-            
-            .page-title {
-                font-size: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .service-item {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            .service-actions {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .btn-apply {
-                width: 100%;
-                justify-content: center;
-            }
+            margin: 10px 0 20px;
+            padding: 10px 0;
+            border-top: 1px dashed var(--border-color);
+            border-bottom: 1px dashed var(--border-color);
         }
         
         /* Theme toggle styling */
@@ -526,6 +673,99 @@
         [data-theme="dark"] .theme-toggle::before {
             transform: translateX(24px);
         }
+        
+        /* Footer */
+        .page-footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-medium);
+            font-size: 0.9rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: var(--text-medium);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .services-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .services-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-item {
+                padding: 0;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+            
+            .page-header {
+                padding: 25px;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .service-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .btn-apply {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .service-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .modal-footer button {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -539,7 +779,6 @@
         <div class="sidebar-header">
             <div class="logo-container">
                 <img src="../assets/CL_logo-02.png" alt="IITK Logo" class="institute-logo">
-               
             </div>
         </div>
 
@@ -599,7 +838,7 @@
                 </div>
             </div>
 
-            <div class="nav-dropdown">
+            <div class="nav-dropdown active">
                 <div class="dropdown-header">
                     <i class="fas fa-concierge-bell nav-icon"></i>
                     <span class="nav-label">My Services</span>
@@ -666,27 +905,31 @@
             <div class="page-header">
                 <h1 class="page-title">
                     <i class="fas fa-user-graduate"></i>
-                    Alumni Services
+                    Document Services
                 </h1>
-                <div class="page-subtitle">
-                    Official administrative and document services for IIT Kanpur alumni. Apply for transcripts, certificates, and verification documents.
-                </div>
+              
             </div>
 
           
 
-            <!-- Services Grid -->
+          
+           
+            
             <div class="services-container">
                 <!-- Service 1 -->
                 <div class="service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-scroll"></i>
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-scroll"></i>
+                        </div>
+                        <div class="service-info">
+                            <h4 class="service-name">Academic Transcripts</h4>
+                            <p class="service-description">Official academic transcripts with institute seal and signature for higher education and employment.</p>
+                        </div>
                     </div>
-                    <div class="service-info">
-                        <h4 class="service-name">Academic Transcripts</h4>
-                        <p class="service-description">Official academic transcripts with institute seal and signature</p>
-                    </div>
-                    <div class="service-actions">
+                
+                    <div class="service-footer">
+                       
                         <button class="btn-apply" data-service="transcripts">
                             <i class="fas fa-paper-plane"></i>
                             Apply Now
@@ -696,14 +939,18 @@
 
                 <!-- Service 2 -->
                 <div class="service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-certificate"></i>
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="service-info">
+                            <h4 class="service-name">Bonafide Certificate</h4>
+                            <p class="service-description">Proof of student status or alumni verification certificate for various official purposes.</p>
+                        </div>
                     </div>
-                    <div class="service-info">
-                        <h4 class="service-name">Bonafide Certificate</h4>
-                        <p class="service-description">Proof of student status or alumni verification certificate</p>
-                    </div>
-                    <div class="service-actions">
+                    
+                    <div class="service-footer">
+                       
                         <button class="btn-apply" data-service="bonafide">
                             <i class="fas fa-paper-plane"></i>
                             Apply Now
@@ -713,14 +960,18 @@
 
                 <!-- Service 3 -->
                 <div class="service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-file-alt"></i>
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="service-info">
+                            <h4 class="service-name">Duplicate Degree Certificate</h4>
+                            <p class="service-description">Reissue of original degree certificate in case of loss or damage with proper verification.</p>
+                        </div>
                     </div>
-                    <div class="service-info">
-                        <h4 class="service-name">Duplicate Degree Certificate</h4>
-                        <p class="service-description">Reissue of original degree certificate (if lost/damaged)</p>
-                    </div>
-                    <div class="service-actions">
+                   
+                    <div class="service-footer">
+                       
                         <button class="btn-apply" data-service="duplicate-degree">
                             <i class="fas fa-paper-plane"></i>
                             Apply Now
@@ -730,14 +981,18 @@
 
                 <!-- Service 4 -->
                 <div class="service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-passport"></i>
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-passport"></i>
+                        </div>
+                        <div class="service-info">
+                            <h4 class="service-name">Migration Certificate</h4>
+                            <p class="service-description">Required for transferring to other universities or institutions for further studies.</p>
+                        </div>
                     </div>
-                    <div class="service-info">
-                        <h4 class="service-name">Migration Certificate</h4>
-                        <p class="service-description">Required for transferring to other universities/institutions</p>
-                    </div>
-                    <div class="service-actions">
+                  
+                    <div class="service-footer">
+                       
                         <button class="btn-apply" data-service="migration">
                             <i class="fas fa-paper-plane"></i>
                             Apply Now
@@ -747,14 +1002,18 @@
 
                 <!-- Service 5 -->
                 <div class="service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-calculator"></i>
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="service-info">
+                            <h4 class="service-name">CPI to Percentage Conversion</h4>
+                            <p class="service-description">Official conversion certificate with institute approval for applications requiring percentage.</p>
+                        </div>
                     </div>
-                    <div class="service-info">
-                        <h4 class="service-name">CPI to Percentage Conversion</h4>
-                        <p class="service-description">Official conversion certificate with institute approval</p>
-                    </div>
-                    <div class="service-actions">
+                  
+                    <div class="service-footer">
+                       
                         <button class="btn-apply" data-service="cpi-conversion">
                             <i class="fas fa-paper-plane"></i>
                             Apply Now
@@ -764,14 +1023,18 @@
 
                 <!-- Service 6 -->
                 <div class="service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-language"></i>
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <div class="service-info">
+                            <h4 class="service-name">MOI Certificate</h4>
+                            <p class="service-description">Medium of Instruction certificate for international applications and visa processes.</p>
+                        </div>
                     </div>
-                    <div class="service-info">
-                        <h4 class="service-name">MOI Certificate</h4>
-                        <p class="service-description">Medium of Instruction certificate for international applications</p>
-                    </div>
-                    <div class="service-actions">
+                   
+                    <div class="service-footer">
+                       
                         <button class="btn-apply" data-service="moi">
                             <i class="fas fa-paper-plane"></i>
                             Apply Now
@@ -781,19 +1044,37 @@
 
                 <!-- Service 7 -->
                 <div class="service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-check-double"></i>
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <div class="service-info">
+                            <h4 class="service-name">Degree Verification</h4>
+                            <p class="service-description">Third-party verification services for employers, universities, and government agencies.</p>
+                        </div>
                     </div>
-                    <div class="service-info">
-                        <h4 class="service-name">Degree Verification</h4>
-                        <p class="service-description">Third-party verification services for employers/universities</p>
-                    </div>
-                    <div class="service-actions">
+                  
+                    <div class="service-footer">
+
                         <button class="btn-apply" data-service="degree-verification">
                             <i class="fas fa-paper-plane"></i>
                             Apply Now
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="page-footer">
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Service FAQs</a>
+                    <a href="#" class="footer-link">Document Requirements</a>
+                    <a href="#" class="footer-link">Shipping & Delivery</a>
+                    <a href="#" class="footer-link">Contact Registrar</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                </div>
+                <div class="copyright">
+                    © 2025 IIT Kanpur Alumni Association. All document services are processed through the Office of the Registrar.
                 </div>
             </div>
         </div>
@@ -807,14 +1088,19 @@
                 <button class="modal-close" id="modalClose">&times;</button>
             </div>
             <div class="modal-body">
+                <div class="service-summary">
+                    <div class="service-summary-icon" id="modalServiceIcon">
+                        <i class="fas fa-scroll"></i>
+                    </div>
+                    <div class="service-summary-info">
+                        <h5 id="modalServiceName">Academic Transcripts</h5>
+                        <p id="modalServiceDesc">Official academic transcripts with institute seal and signature</p>
+                    </div>
+                </div>
+                
                 <form id="applicationForm">
                     <div class="form-group">
-                        <label class="form-label">Service</label>
-                        <input type="text" class="form-control" id="serviceName" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Delivery Method *</label>
+                        <label class="form-label" for="deliveryMethod">Delivery Method <span>*</span></label>
                         <select class="form-select" id="deliveryMethod" required>
                             <option value="">Select delivery method</option>
                             <option value="digital">Digital PDF (Free)</option>
@@ -824,7 +1110,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Purpose *</label>
+                        <label class="form-label" for="purpose">Purpose <span>*</span></label>
                         <select class="form-select" id="purpose" required>
                             <option value="">Select purpose</option>
                             <option value="higher-education">Higher Education</option>
@@ -836,13 +1122,18 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Additional Instructions (Optional)</label>
-                        <textarea class="form-textarea" id="instructions" placeholder="Any special instructions or requirements..."></textarea>
+                        <label class="form-label" for="instructions">Additional Instructions (Optional)</label>
+                        <textarea class="form-textarea" id="instructions" placeholder="Any special instructions, urgency notes, or specific requirements..."></textarea>
                     </div>
                     
-                    <div class="form-group">
-                        <div class="status-badge" id="serviceFeeBadge">Fee: Loading...</div>
-                        <div class="processing-time" id="processingTimeText">Processing time: Loading...</div>
+                    <div class="fee-display">
+                        <div class="fee-label">Total Fee:</div>
+                        <div class="fee-amount" id="serviceFeeAmount">₹1000</div>
+                    </div>
+                    
+                    <div class="processing-time">
+                        <i class="fas fa-clock"></i>
+                        <span id="processingTimeText">Processing time: 24-48 hours</span>
                     </div>
                 </form>
             </div>
@@ -875,45 +1166,52 @@
             const services = {
                 'transcripts': {
                     name: 'Academic Transcripts',
-                    fee: '₹1000',
+                    icon: 'fa-scroll',
+                    fee: 1000,
                     processing: '24-48 hours',
-                    description: 'Official academic transcripts with institute seal and signature'
+                    description: 'Official academic transcripts with institute seal and signature for higher education and employment.'
                 },
                 'bonafide': {
                     name: 'Bonafide Certificate',
-                    fee: '₹500',
+                    icon: 'fa-certificate',
+                    fee: 500,
                     processing: '24 hours',
-                    description: 'Proof of student status or alumni verification certificate'
+                    description: 'Proof of student status or alumni verification certificate for various official purposes.'
                 },
                 'duplicate-degree': {
                     name: 'Duplicate Degree Certificate',
-                    fee: '₹2000',
+                    icon: 'fa-file-alt',
+                    fee: 2000,
                     processing: '5-7 working days',
-                    description: 'Reissue of original degree certificate (if lost/damaged)'
+                    description: 'Reissue of original degree certificate in case of loss or damage with proper verification.'
                 },
                 'migration': {
                     name: 'Migration Certificate',
-                    fee: '₹800',
+                    icon: 'fa-passport',
+                    fee: 800,
                     processing: '24-48 hours',
-                    description: 'Required for transferring to other universities/institutions'
+                    description: 'Required for transferring to other universities or institutions for further studies.'
                 },
                 'cpi-conversion': {
                     name: 'CPI to Percentage Conversion',
-                    fee: '₹600',
+                    icon: 'fa-calculator',
+                    fee: 600,
                     processing: 'Instant (Digital) / 24 hours (Physical)',
-                    description: 'Official conversion certificate with institute approval'
+                    description: 'Official conversion certificate with institute approval for applications requiring percentage.'
                 },
                 'moi': {
                     name: 'MOI Certificate',
-                    fee: '₹700',
+                    icon: 'fa-language',
+                    fee: 700,
                     processing: '24 hours',
-                    description: 'Medium of Instruction certificate for international applications'
+                    description: 'Medium of Instruction certificate for international applications and visa processes.'
                 },
                 'degree-verification': {
                     name: 'Degree Verification',
-                    fee: '₹1200',
+                    icon: 'fa-check-double',
+                    fee: 1200,
                     processing: '24-48 hours',
-                    description: 'Third-party verification services for employers/universities'
+                    description: 'Third-party verification services for employers, universities, and government agencies.'
                 }
             };
             
@@ -922,8 +1220,12 @@
             const modalClose = document.getElementById('modalClose');
             const modalCancel = document.getElementById('modalCancel');
             const modalSubmit = document.getElementById('modalSubmit');
-            const serviceFeeBadge = document.getElementById('serviceFeeBadge');
+            const serviceFeeAmount = document.getElementById('serviceFeeAmount');
             const processingTimeText = document.getElementById('processingTimeText');
+            const modalServiceIcon = document.getElementById('modalServiceIcon');
+            const modalServiceName = document.getElementById('modalServiceName');
+            const modalServiceDesc = document.getElementById('modalServiceDesc');
+            const deliveryMethodSelect = document.getElementById('deliveryMethod');
             
             let currentService = '';
             
@@ -935,6 +1237,26 @@
                 });
             });
             
+            // Quick action buttons
+            document.querySelectorAll('.action-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const actionId = this.id;
+                    
+                    // Show appropriate message for quick actions
+                    const actionMessages = {
+                        'viewApplications': 'Redirecting to your applications dashboard...',
+                        'trackService': 'Opening service tracking portal...',
+                        'downloadDocuments': 'Accessing document download center...',
+                        'contactSupport': 'Connecting you with alumni support...'
+                    };
+                    
+                    if (actionMessages[actionId]) {
+                        alert(`🔄 ${actionMessages[actionId]}`);
+                    }
+                });
+            });
+            
             // Open application modal
             function openApplicationModal(serviceId) {
                 if (services[serviceId]) {
@@ -942,8 +1264,14 @@
                     const service = services[serviceId];
                     
                     document.getElementById('modalServiceTitle').textContent = `Apply for ${service.name}`;
-                    document.getElementById('serviceName').value = service.name;
-                    serviceFeeBadge.textContent = `Fee: ${service.fee}`;
+                    modalServiceName.textContent = service.name;
+                    modalServiceDesc.textContent = service.description;
+                    
+                    // Set icon
+                    modalServiceIcon.innerHTML = `<i class="fas ${service.icon}"></i>`;
+                    
+                    // Set fee and processing time
+                    updateFeeDisplay(service.fee);
                     processingTimeText.textContent = `Processing time: ${service.processing}`;
                     
                     // Reset form
@@ -952,12 +1280,37 @@
                     document.getElementById('instructions').value = '';
                     
                     applicationModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
                 }
             }
+            
+            // Update fee display based on delivery method
+            function updateFeeDisplay(baseFee) {
+                const deliveryMethod = deliveryMethodSelect.value;
+                let totalFee = baseFee;
+                
+                if (deliveryMethod === 'courier-india') {
+                    totalFee = baseFee + 200;
+                } else if (deliveryMethod === 'courier-international') {
+                    totalFee = baseFee + 1200;
+                } else if (deliveryMethod === 'digital') {
+                    totalFee = baseFee;
+                }
+                
+                serviceFeeAmount.textContent = `₹${totalFee}`;
+            }
+            
+            // Listen for delivery method changes
+            deliveryMethodSelect.addEventListener('change', function() {
+                if (services[currentService]) {
+                    updateFeeDisplay(services[currentService].fee);
+                }
+            });
             
             // Close modal
             function closeApplicationModal() {
                 applicationModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
             
             // Event listeners
@@ -971,19 +1324,31 @@
                 const purpose = document.getElementById('purpose').value;
                 
                 if (!deliveryMethod || !purpose) {
-                    alert('Please fill in all required fields marked with *');
+                    alert('⚠️ Please fill in all required fields marked with *');
                     return;
                 }
                 
                 // Calculate total fee based on delivery method
                 let totalFee = service.fee;
                 if (deliveryMethod === 'courier-india') {
-                    totalFee = '₹1200';
+                    totalFee = service.fee + 200;
                 } else if (deliveryMethod === 'courier-international') {
-                    totalFee = '₹2200';
+                    totalFee = service.fee + 1200;
                 }
                 
-                alert(`✅ Application submitted successfully!\n\nService: ${service.name}\nTotal Fee: ${totalFee}\n\nYou will receive a confirmation email with payment details.`);
+                // Show success message
+                const successMessage = `
+                ✅ Application submitted successfully!
+                
+                Service: ${service.name}
+                Delivery: ${document.getElementById('deliveryMethod').options[document.getElementById('deliveryMethod').selectedIndex].text}
+                Total Fee: ₹${totalFee}
+                Reference ID: IITK-ALUM-${Date.now().toString().slice(-8)}
+                
+                You will receive a confirmation email with payment details and tracking information.
+                `;
+                
+                alert(successMessage);
                 closeApplicationModal();
             });
             
@@ -1031,15 +1396,32 @@
                     serviceItems.forEach(item => {
                         const serviceName = item.querySelector('.service-name').textContent.toLowerCase();
                         const serviceDesc = item.querySelector('.service-description').textContent.toLowerCase();
+                        const serviceTags = Array.from(item.querySelectorAll('.service-tag')).map(tag => tag.textContent.toLowerCase());
                         
-                        if (serviceName.includes(searchTerm) || serviceDesc.includes(searchTerm)) {
+                        if (serviceName.includes(searchTerm) || serviceDesc.includes(searchTerm) || 
+                            serviceTags.some(tag => tag.includes(searchTerm))) {
                             item.style.display = 'flex';
+                            item.style.opacity = '1';
                         } else {
                             item.style.display = 'none';
                         }
                     });
                 });
             }
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl + / to focus search
+                if (e.ctrlKey && e.key === '/') {
+                    e.preventDefault();
+                    if (searchInput) searchInput.focus();
+                }
+                
+                // Escape to close modal
+                if (e.key === 'Escape') {
+                    closeApplicationModal();
+                }
+            });
         });
     </script>
 </body>

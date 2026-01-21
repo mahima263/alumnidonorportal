@@ -35,6 +35,8 @@
             --warning-light: rgba(217, 119, 6, 0.1);
             --info-color: #2c5282;
             --info-light: rgba(44, 82, 130, 0.1);
+            --action-color: #2c5282;
+            --action-light: rgba(44, 82, 130, 0.1);
         }
 
         [data-theme="dark"] {
@@ -52,6 +54,8 @@
             --warning-light: rgba(246, 224, 94, 0.15);
             --info-color: #63b3ed;
             --info-light: rgba(99, 179, 237, 0.15);
+            --action-color: #63b3ed;
+            --action-light: rgba(99, 179, 237, 0.15);
         }
         
         /* Clean Table Design */
@@ -195,6 +199,45 @@
             font-size: 0.85rem;
         }
         
+        /* Contribute Now Button */
+        .contribute-btn {
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .contribute-btn:hover {
+            background: #234a71;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 82, 130, 0.3);
+        }
+        
+        .contribute-btn:active {
+            transform: translateY(0);
+        }
+        
+        .contribute-btn.completed {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .contribute-btn.completed:hover {
+            background: var(--text-secondary);
+            transform: none;
+            box-shadow: none;
+        }
+        
         /* Enhanced Graph Container */
         .graph-container {
             background: var(--card-bg);
@@ -318,7 +361,7 @@
             }
             
             .pledges-table {
-                min-width: 800px;
+                min-width: 900px;
             }
         }
         
@@ -360,6 +403,11 @@
             
             .graph-tab {
                 text-align: center;
+            }
+            
+            .contribute-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
             }
         }
         
@@ -508,6 +556,231 @@
         .note-box i {
             color: var(--info-color);
             margin-right: 8px;
+        }
+        
+        /* Contribute Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .contribute-modal {
+            background: var(--card-bg);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: transparent;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--table-row-hover);
+            color: var(--text-primary);
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .pledge-details {
+            background: var(--table-row-hover);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .pledge-detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .pledge-detail-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .modal-actions {
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .modal-btn.cancel {
+            background: var(--table-head-bg);
+            color: var(--text-primary);
+        }
+        
+        .modal-btn.cancel:hover {
+            background: var(--table-row-hover);
+        }
+        
+        .modal-btn.submit {
+            background: var(--action-color);
+            color: white;
+        }
+        
+        .modal-btn.submit:hover {
+            background: #234a71;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 82, 130, 0.3);
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 24px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1100;
+            animation: toastSlideIn 0.3s ease;
+            max-width: 400px;
+            border: 1px solid var(--border-color);
+        }
+        
+        @keyframes toastSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes toastSlideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+        
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+        
+        .toast-message {
+            font-weight: 500;
+            color: var(--text-primary);
         }
     </style>
 </head>
@@ -685,7 +958,6 @@
                         <div class="detail-value">$25,900</div>
                     </div>
                 </div>
-               
             </div>
 
             <!-- Pledges Table -->
@@ -708,6 +980,7 @@
                                 <th>Pledge Amount</th>
                                 <th>Date</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -719,6 +992,12 @@
                                 <td><span class="pledge-amount">$2,500</span></td>
                                 <td class="pledge-date">Jan 15, 2010</td>
                                 <td><span class="status-completed">Completed</span></td>
+                                <td>
+                                    <button class="contribute-btn completed">
+                                        <i class="fas fa-check"></i>
+                                        Contributed
+                                    </button>
+                                </td>
                             </tr>
                             
                             <!-- Row 2 - 10th Reunion (2015) -->
@@ -729,6 +1008,12 @@
                                 <td><span class="pledge-amount">$7,500</span></td>
                                 <td class="pledge-date">Jan 20, 2015</td>
                                 <td><span class="status-completed">Completed</span></td>
+                                <td>
+                                    <button class="contribute-btn completed">
+                                        <i class="fas fa-check"></i>
+                                        Contributed
+                                    </button>
+                                </td>
                             </tr>
                             
                             <!-- Row 3 - 15th Reunion (2020) -->
@@ -739,6 +1024,12 @@
                                 <td><span class="pledge-amount">€3,000</span></td>
                                 <td class="pledge-date">Dec 10, 2020</td>
                                 <td><span class="status-completed">Completed</span></td>
+                                <td>
+                                    <button class="contribute-btn completed">
+                                        <i class="fas fa-check"></i>
+                                        Contributed
+                                    </button>
+                                </td>
                             </tr>
                             
                             <!-- Row 4 - 20th Reunion (2025) -->
@@ -749,14 +1040,17 @@
                                 <td><span class="pledge-amount">$5,000</span></td>
                                 <td class="pledge-date">Jan 15, 2025</td>
                                 <td><span class="status-pending">Pending</span></td>
+                                <td>
+                                    <button class="contribute-btn" data-reunion-year="2025" data-reunion-type="20th Reunion" data-amount="5000" data-currency="USD">
+                                        <i class="fas fa-hand-holding-usd"></i>
+                                        Contribute Now
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <!-- Note about reunions -->
-            
 
             <!-- Enhanced Graph -->
             <div class="graph-container">
@@ -806,6 +1100,68 @@
             </div>
         </div>
     </main>
+
+    <!-- ===== CONTRIBUTE MODAL ===== -->
+    <div id="contributeModal" class="modal-overlay">
+        <div class="contribute-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Contribute to Pledge</h3>
+                <button class="modal-close" id="closeContributeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="pledge-details">
+                    <div class="pledge-detail-item">
+                        <span class="detail-label">Reunion Year:</span>
+                        <span class="detail-value" id="modalReunionYear">2025</span>
+                    </div>
+                    <div class="pledge-detail-item">
+                        <span class="detail-label">Reunion Type:</span>
+                        <span class="detail-value" id="modalReunionType">20th Reunion</span>
+                    </div>
+                    <div class="pledge-detail-item">
+                        <span class="detail-label">Pledged Amount:</span>
+                        <span class="detail-value" id="modalPledgeAmount">$5,000</span>
+                    </div>
+                    <div class="pledge-detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value"><span class="status-pending">Pending</span></span>
+                    </div>
+                </div>
+                
+                <form id="contributeForm">
+                    <div class="form-group">
+                        <label class="form-label" for="contributionAmount">Contribution Amount <span style="color: var(--text-secondary); font-size: 0.9rem;">(in USD)</span></label>
+                        <input type="number" class="form-input" id="contributionAmount" placeholder="Enter amount" min="1" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="paymentMethod">Payment Method</label>
+                        <select class="form-input" id="paymentMethod" required>
+                            <option value="">Select payment method</option>
+                            <option value="credit_card">Credit Card</option>
+                            <option value="debit_card">Debit Card</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                            <option value="upi">UPI</option>
+                            <option value="paypal">PayPal</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="comments">Comments (Optional)</label>
+                        <textarea class="form-input" id="comments" rows="3" placeholder="Any additional comments..."></textarea>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-actions">
+                <button type="button" class="modal-btn cancel" id="cancelContributeBtn">Cancel</button>
+                <button type="button" class="modal-btn submit" id="submitContributionBtn">Submit Contribution</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -1191,6 +1547,146 @@
             if (savedTheme) {
                 document.documentElement.setAttribute('data-theme', savedTheme);
                 setTimeout(() => initChart(currentTab, currentChartType), 100);
+            }
+            
+            // ===== CONTRIBUTE NOW BUTTON FUNCTIONALITY =====
+            let currentPledgeData = null;
+            
+            // Handle Contribute Now button clicks
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.contribute-btn:not(.completed)')) {
+                    const button = e.target.closest('.contribute-btn');
+                    
+                    // Get pledge data from button attributes
+                    currentPledgeData = {
+                        reunionYear: button.getAttribute('data-reunion-year'),
+                        reunionType: button.getAttribute('data-reunion-type'),
+                        amount: button.getAttribute('data-amount'),
+                        currency: button.getAttribute('data-currency')
+                    };
+                    
+                    // Populate modal with pledge data
+                    document.getElementById('modalReunionYear').textContent = currentPledgeData.reunionYear;
+                    document.getElementById('modalReunionType').textContent = currentPledgeData.reunionType;
+                    document.getElementById('modalPledgeAmount').textContent = `${currentPledgeData.currency}${currentPledgeData.amount}`;
+                    
+                    // Set default contribution amount
+                    document.getElementById('contributionAmount').value = currentPledgeData.amount;
+                    
+                    // Open modal
+                    openContributeModal();
+                }
+            });
+            
+            // ===== CONTRIBUTE MODAL =====
+            function openContributeModal() {
+                document.getElementById('contributeModal').classList.add('active');
+            }
+            
+            function closeContributeModal() {
+                document.getElementById('contributeModal').classList.remove('active');
+                document.getElementById('contributeForm').reset();
+                currentPledgeData = null;
+            }
+            
+            // Modal close buttons
+            document.getElementById('closeContributeModal').addEventListener('click', closeContributeModal);
+            document.getElementById('cancelContributeBtn').addEventListener('click', closeContributeModal);
+            
+            // Submit contribution button
+            document.getElementById('submitContributionBtn').addEventListener('click', function() {
+                const amount = document.getElementById('contributionAmount').value;
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                const comments = document.getElementById('comments').value;
+                
+                // Validate form
+                if (!amount || amount <= 0) {
+                    showToast('Please enter a valid contribution amount', 'warning');
+                    return;
+                }
+                
+                if (!paymentMethod) {
+                    showToast('Please select a payment method', 'warning');
+                    return;
+                }
+                
+                // Show loading state
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                this.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    showToast(`Successfully contributed $${amount} to ${currentPledgeData.reunionType} pledge!`);
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    
+                    // Update table row (in a real app, this would come from the backend)
+                    const rows = document.querySelectorAll('.pledges-table tbody tr');
+                    rows.forEach(row => {
+                        const yearCell = row.querySelector('.reunion-year');
+                        if (yearCell && yearCell.textContent === currentPledgeData.reunionYear) {
+                            const statusCell = row.querySelector('.status-pending');
+                            if (statusCell) {
+                                statusCell.className = 'status-completed';
+                                statusCell.textContent = 'Completed';
+                            }
+                            
+                            const buttonCell = row.querySelector('.contribute-btn');
+                            if (buttonCell) {
+                                buttonCell.className = 'contribute-btn completed';
+                                buttonCell.innerHTML = '<i class="fas fa-check"></i> Contributed';
+                            }
+                        }
+                    });
+                    
+                    closeContributeModal();
+                    
+                    // Update chart data (simulate)
+                    myContributionsData.fulfilled[3] = parseInt(amount); // Update 2025 data
+                    initChart(currentTab, currentChartType);
+                    
+                }, 2000);
+            });
+            
+            // Close modal when clicking outside
+            document.getElementById('contributeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeContributeModal();
+                }
+            });
+            
+            // ===== TOAST NOTIFICATION =====
+            function showToast(message, type = 'success') {
+                // Remove existing toast
+                const existingToast = document.querySelector('.toast');
+                if (existingToast) existingToast.remove();
+                
+                // Create toast
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                
+                const icon = type === 'warning' ? 'exclamation-circle' : 'check-circle';
+                const iconColor = type === 'warning' ? 'var(--warning-color)' : 'var(--success-color)';
+                
+                toast.innerHTML = `
+                    <div class="toast-icon">
+                        <i class="fas fa-${icon}" style="color: ${iconColor}"></i>
+                    </div>
+                    <div class="toast-message">${message}</div>
+                `;
+                
+                document.body.appendChild(toast);
+                
+                // Remove after 4 seconds
+                setTimeout(() => {
+                    toast.style.animation = 'toastSlideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 300);
+                }, 4000);
             }
         });
     </script>
